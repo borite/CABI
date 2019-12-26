@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="61c40b740bc640b9886d9b764fbb9fe2" Name="Diagram1">
+        <EntityTypeShape EntityType="CABIProjectModel.AdminUser" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CABIProjectModel.Banner" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CABIProjectModel.CABIProduct" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CABIProjectModel.CompanyInfo" Width="1.5" PointX="5.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CABIProjectModel.ProgramData" Width="1.5" PointX="8.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CABIProjectModel.TitleType" Width="1.5" PointX="6.125" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="CABIProjectModel.FK_CABIProduct_TitleType" />
+        <EntityTypeShape EntityType="CABIProjectModel.UserOrder" Width="1.5" PointX="8.375" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

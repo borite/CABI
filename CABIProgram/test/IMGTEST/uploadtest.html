@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>上传图片测试</title>
+  
+    <!-- 这里引入必须加个.代表相对路径 -->
+    <script src="./jquery/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+       标题 <input id="titlebtn"><br>
+       外链 <input id="URLbtn"><br>
+       锁定 <input  name="selectval" type="radio" value="true"> 不锁定 <input  name="selectval" type="radio" value="false"><br>
+       排序 <input id="Desplaybtn"><br>
+
+    <input type="file" name="basefile" id="basefile" value="选择上传的文件" multiple>
+    <button id="btn">点我上传</button>
+    <script>
+        //图片数组
+        var imgurl=new Array();
+        var allImgsOK=false;  //标识是否所有图片已经Base64转码完毕
+
+        //提交点击
+        $("#btn").click(function(){
+            var getLocked =$('input:radio[name="selectval"]:checked').val(); //是否锁定
+            var getURL =$("#URLbtn").val();//获取外链接的值
+            var getTitle =$("#titlebtn").val();//获取标题的值
+            var getDesplay =$("#Desplaybtn").val();//获取标题的值
+
+            console.log(getLocked+"---"+getURL+"---"+getTitle+"----"+getDesplay);
+
+            if(allImgsOK){ //如果图片都上传完
+                for(let a=0;a<imgurl.length;a++){
+                    console.log("test."+imgurl[a].ext); //每一个后缀都遍历添加一下
+                    updateBackground("test."+imgurl[a].ext,imgurl[a].baseURL,getTitle,getURL,getLocked,getDesplay); //后缀 +名字
+                }
+            }
+
+        });
+
+        //上传事件绑定
+        $("#basefile").change(function () {
+           // console.log("xx");
+            var basefile = base64(document.getElementById("basefile"));
+        });
+
+
+
+        //上传图片的方法
+        function base64(file) {
+            var reader=null;
+          
+            //循环上传的文件
+            for(let i=0;i<file.files.length;i++){
+                reader = new FileReader();
+                //console.log(reader);
+                var pos = file.files[i].name.lastIndexOf("."); //从后往前获取.之后的索引值.jpg返回值为4
+                var type = file.files[i].name.substring(pos + 1); //获取这个后缀名
+                reader.readAsDataURL(file.files[i]);
+                reader.onloadend = function (e) { //这是一个异步的方法
+                    var imgInfo={ext:type,baseURL:e.target.result}
+                    imgurl.push(imgInfo);
+                    console.log(imgurl);
+                    if(i==file.files.length-1){
+                       
+                        allImgsOK=true;
+                    }
+                    //updateBackground(file.files[0].name,imgurl); //返回文件，和
+                }
+            }
+
+            // if (typeof (FileReader) === 'undefined') {
+            //     alert("抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！");
+            // }
+
+            // //判断文件格式
+            // if (type.toLowerCase() != "png" && type.toLowerCase() != 'jpg' && type.toLowerCase() != 'jpeg' && type.toLowerCase() != 'gif' && type.toLowerCase() != 'bmp') {
+            //     alert("格式错误，请上传'png、jpg、jpeg、bmp、gif'格式文件");
+            //     return;
+            // }
+
+
+
+            // Read the file
+           
+
+        }
+
+
+        //这个是点击上传按钮的方法 接收参数：文件名，二进制文件，Banner标题，网址（外链用没有可填写空），是否锁定，排序
+        function updateBackground(filename, imageurl,Title,URL,IsLocked,Desplay) {
+
+            //提交前，去除格式标记
+            imageurl = imageurl.replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,", "").replace("data:image/jpg;base64,", "").replace("data:image/gif;base64,", "").replace("data:image/bmp;base64,", "");
+            // urlElement.innerHTML = imgurl;
+            var businessParam = {
+                "fileBase64": imageurl,
+                "fileName": filename,
+                "Title":Title,
+                "URL":URL,
+                "IsLocked":IsLocked,
+                "Display":Desplay
+            };
+             console.log(businessParam);
+
+            $.ajax({
+             
+               // url: 'http://localhost:52722//CABI/User/AddBanner', //上传post地址
+                  url: 'http://39.104.205.226:8081/CABI/User/AddBanner', //上传post地址
+                data: JSON.stringify(businessParam),
+               
+                contentType: 'application/json',
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (data) {
+                    alert("error:" + data.Error);
+                }
+            })
+
+        }
+
+
+
+    </script>
+
+
+</body>
+
+</html>
