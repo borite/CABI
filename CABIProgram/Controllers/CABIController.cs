@@ -26,7 +26,7 @@ using static ChinaAudio.Class.Code;
 
 namespace CABIProgram.Controllers
 {
-    [RoutePrefix("User")]
+    [RoutePrefix("api")]
     public class CABIController : ApiController
     {
         CABIProjectEntities CB = new CABIProjectEntities();
@@ -47,7 +47,7 @@ namespace CABIProgram.Controllers
             {
                 return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "获取成功", Data = cc });
             }
-            return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "没有相应信息", Data = cc });
+            return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "没有相应的滚动图信息", Data = cc });
             
         }
         /// <summary>
@@ -202,7 +202,7 @@ namespace CABIProgram.Controllers
         /// <param name="obj">{"pageSize":"1","pageIndex":"1"} </param>
         /// <returns>message返回数据 total返回数据总数</returns>
         [HttpPost, Route("UserTopList")]
-        public string TopList(fenye obj)
+        public IHttpActionResult TopList(fenye obj)
         {
 
             //每页的多少
@@ -212,8 +212,19 @@ namespace CABIProgram.Controllers
 
             var total = CB.CABIProduct.Where(a => a.IsLocked == false && a.TopRecommend == true).Count();
 
-            var list = CB.CABIProduct.Where(a => a.IsLocked == false && a.TopRecommend == true).OrderByDescending(a => a.TopDesplay).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
-            return code.returnSuccess2(list, total, "前台查看栏目推荐");
+            var list = CB.CABIProduct.Where(a => a.IsLocked == false && a.TopRecommend == true).OrderByDescending(a => a.TopDesplay).Skip(pageSize * (pageIndex - 1)).Take(pageSize).Select(s=>new
+            {
+                s.ID,
+                s.CollectionImg
+            });
+
+            if (list != null)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "记录获取成功", Data = list });
+            }
+
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 404, Message = "没有找到相关记录" });
+
         }
 
         /// <summary>
