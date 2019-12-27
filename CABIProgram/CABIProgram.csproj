@@ -172,6 +172,7 @@
     <Compile Include="Class\zhengze\UserPzz.cs" />
     <Compile Include="Controllers\CABIController.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\wxArticalDTO.cs" />
     <Compile Include="Entity\AdminUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -222,6 +223,9 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="libman.json" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\DavidZheng察必API.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
