@@ -87,6 +87,21 @@
           <Property Name="Display" Type="int" Nullable="false" />
           <Property Name="IsLocked" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserOpenID" Type="nvarchar" MaxLength="200" />
+          <Property Name="WxHeadImg" Type="nvarchar" MaxLength="1000" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="Province" Type="nvarchar" MaxLength="50" />
+          <Property Name="Counrty" Type="nvarchar" MaxLength="50" />
+          <Property Name="Gender" Type="tinyint" />
+          <Property Name="WxNickName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="UserRealName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="UserOrder">
           <Key>
             <PropertyRef Name="OrderID" />
@@ -126,6 +141,7 @@
           <EntitySet Name="CompanyInfo" EntityType="Self.CompanyInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProgramData" EntityType="Self.ProgramData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TitleType" EntityType="Self.TitleType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOrder" EntityType="Self.UserOrder" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CABIProduct_TitleType" Association="Self.FK_CABIProduct_TitleType">
             <End Role="TitleType" EntitySet="TitleType" />
@@ -232,6 +248,7 @@
             <End Role="CABIProduct" EntitySet="CABIProduct" />
           </AssociationSet>
           <EntitySet Name="UserOrder" EntityType="CABIProjectModel.UserOrder" />
+          <EntitySet Name="UserInfo" EntityType="CABIProjectModel.UserInfo" />
         </EntityContainer>
         <Association Name="FK_CABIProduct_TitleType">
           <End Type="CABIProjectModel.TitleType" Role="TitleType" Multiplicity="1">
@@ -264,6 +281,21 @@
           <Property Name="OrderContact" Type="Int32" Nullable="false" />
           <Property Name="SubmitTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="AdminDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserOpenID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WxHeadImg" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Counrty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Byte" />
+          <Property Name="WxNickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserRealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -375,6 +407,22 @@
                 <ScalarProperty Name="OrderProductID" ColumnName="OrderProductID" />
                 <ScalarProperty Name="OrderOpenID" ColumnName="OrderOpenID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="CABIProjectModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UserRealName" ColumnName="UserRealName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="WxNickName" ColumnName="WxNickName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Counrty" ColumnName="Counrty" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="WxHeadImg" ColumnName="WxHeadImg" />
+                <ScalarProperty Name="UserOpenID" ColumnName="UserOpenID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

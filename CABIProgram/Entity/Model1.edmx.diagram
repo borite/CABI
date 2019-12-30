@@ -13,6 +13,7 @@
         <EntityTypeShape EntityType="CABIProjectModel.TitleType" Width="1.5" PointX="6.125" PointY="5.375" IsExpanded="true" />
         <AssociationConnector Association="CABIProjectModel.FK_CABIProduct_TitleType" />
         <EntityTypeShape EntityType="CABIProjectModel.UserOrder" Width="1.5" PointX="8.375" PointY="3.75" />
+        <EntityTypeShape EntityType="CABIProjectModel.UserInfo" Width="1.5" PointX="5.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

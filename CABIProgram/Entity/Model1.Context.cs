@@ -33,5 +33,6 @@ namespace CABIProgram.Entity
         public virtual DbSet<ProgramData> ProgramData { get; set; }
         public virtual DbSet<TitleType> TitleType { get; set; }
         public virtual DbSet<UserOrder> UserOrder { get; set; }
+        public virtual DbSet<UserInfo> UserInfo { get; set; }
     }
 }

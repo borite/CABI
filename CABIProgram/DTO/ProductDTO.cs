@@ -70,4 +70,14 @@ namespace CABIProgram.DTO
 
 
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class AddWishDTO
+    {
+
+    }
+
+
 }
