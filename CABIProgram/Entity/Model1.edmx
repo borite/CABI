@@ -120,6 +120,15 @@
           <Property Name="SubmitTime" Type="datetime" Nullable="false" />
           <Property Name="AdminDescription" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="Wishes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserOpenID" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="AddTime" Type="datetime" />
+        </EntityType>
         <Association Name="FK_CABIProduct_TitleType">
           <End Role="TitleType" Type="Self.TitleType" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -134,6 +143,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserOrder_CABIProduct">
+          <End Role="CABIProduct" Type="Self.CABIProduct" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserOrder" Type="Self.UserOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABIProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserOrder">
+              <PropertyRef Name="OrderProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wishes_CABIProduct">
+          <End Role="CABIProduct" Type="Self.CABIProduct" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wishes" Type="Self.Wishes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABIProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wishes">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CABIProjectModelStoreContainer">
           <EntitySet Name="AdminUser" EntityType="Self.AdminUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Banner" EntityType="Self.Banner" Schema="dbo" store:Type="Tables" />
@@ -143,9 +180,18 @@
           <EntitySet Name="TitleType" EntityType="Self.TitleType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOrder" EntityType="Self.UserOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wishes" EntityType="Self.Wishes" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CABIProduct_TitleType" Association="Self.FK_CABIProduct_TitleType">
             <End Role="TitleType" EntitySet="TitleType" />
             <End Role="CABIProduct" EntitySet="CABIProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder_CABIProduct" Association="Self.FK_UserOrder_CABIProduct">
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+            <End Role="UserOrder" EntitySet="UserOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wishes_CABIProduct" Association="Self.FK_Wishes_CABIProduct">
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+            <End Role="Wishes" EntitySet="Wishes" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -208,6 +254,8 @@
           <Property Name="ContentIMGList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DesignConcept" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ClothInfo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Wishes" Relationship="CABIProjectModel.FK_Wishes_CABIProduct" FromRole="CABIProduct" ToRole="Wishes" />
+          <NavigationProperty Name="UserOrder" Relationship="CABIProjectModel.FK_UserOrder_CABIProduct" FromRole="CABIProduct" ToRole="UserOrder" />
         </EntityType>
         <EntityType Name="CompanyInfo">
           <Key>
@@ -249,6 +297,15 @@
           </AssociationSet>
           <EntitySet Name="UserOrder" EntityType="CABIProjectModel.UserOrder" />
           <EntitySet Name="UserInfo" EntityType="CABIProjectModel.UserInfo" />
+          <EntitySet Name="Wishes" EntityType="CABIProjectModel.Wishes" />
+          <AssociationSet Name="FK_Wishes_CABIProduct" Association="CABIProjectModel.FK_Wishes_CABIProduct">
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+            <End Role="Wishes" EntitySet="Wishes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder_CABIProduct" Association="CABIProjectModel.FK_UserOrder_CABIProduct">
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+            <End Role="UserOrder" EntitySet="UserOrder" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_CABIProduct_TitleType">
           <End Type="CABIProjectModel.TitleType" Role="TitleType" Multiplicity="1">
@@ -281,6 +338,7 @@
           <Property Name="OrderContact" Type="Int32" Nullable="false" />
           <Property Name="SubmitTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="AdminDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CABIProduct" Relationship="CABIProjectModel.FK_UserOrder_CABIProduct" FromRole="UserOrder" ToRole="CABIProduct" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -297,6 +355,44 @@
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="UserRealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Wishes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserOpenID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="ProductID" Type="Int32" />
+          <NavigationProperty Name="CABIProduct" Relationship="CABIProjectModel.FK_Wishes_CABIProduct" FromRole="Wishes" ToRole="CABIProduct" />
+        </EntityType>
+        <Association Name="FK_Wishes_CABIProduct">
+          <End Type="CABIProjectModel.CABIProduct" Role="CABIProduct" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CABIProjectModel.Wishes" Role="Wishes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABIProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wishes">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrder_CABIProduct">
+          <End Type="CABIProjectModel.CABIProduct" Role="CABIProduct" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CABIProjectModel.UserOrder" Role="UserOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABIProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserOrder">
+              <PropertyRef Name="OrderProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -423,6 +519,16 @@
                 <ScalarProperty Name="WxHeadImg" ColumnName="WxHeadImg" />
                 <ScalarProperty Name="UserOpenID" ColumnName="UserOpenID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wishes">
+            <EntityTypeMapping TypeName="CABIProjectModel.Wishes">
+              <MappingFragment StoreEntitySet="Wishes">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="UserOpenID" ColumnName="UserOpenID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -173,6 +173,7 @@
     <Compile Include="Controllers\CABIController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DTO\AddUserDTO.cs" />
+    <Compile Include="DTO\BookingOrderDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\wxArticalDTO.cs" />
     <Compile Include="Entity\AdminUser.cs">
@@ -212,6 +213,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\UserOrder.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Wishes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">

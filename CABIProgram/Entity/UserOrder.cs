@@ -27,5 +27,7 @@ namespace CABIProgram.Entity
         public int OrderContact { get; set; }
         public System.DateTime SubmitTime { get; set; }
         public string AdminDescription { get; set; }
+    
+        public virtual CABIProduct CABIProduct { get; set; }
     }
 }

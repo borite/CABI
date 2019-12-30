@@ -262,6 +262,8 @@ namespace CABIProgram.Controllers
             return code.returnSuccess("推荐状态修改成功", res);
         }
         #endregion
+
+
         #region 产品管理
 
         /// <summary>
@@ -812,24 +814,21 @@ namespace CABIProgram.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost, Route("AddOrder")]
-        public string AddOrder(UserOrder obj)
+        public IHttpActionResult AddOrder(BookingOrderDTO bookingOrderDTO)
         {
-
-
             //  var order= CB.UserOrder
             UserOrder res = new UserOrder();
-            res.OrderOpenID = obj.OrderOpenID;
-            res.OrderPhone = obj.OrderPhone;
-            res.OrderName = obj.OrderName;
-            res.OrderHeadImg = obj.OrderHeadImg;
-            res.OrderSex = obj.OrderSex;
-            res.OrderSex = obj.OrderSex;
+            res.OrderOpenID = bookingOrderDTO.OrderOpenID;
+            res.OrderPhone = bookingOrderDTO.OrderPhone;
+            res.OrderName = bookingOrderDTO.OrderName;
+            res.OrderHeadImg = bookingOrderDTO.OrderHeadImg;
+            res.OrderSex = bookingOrderDTO.OrderSex;
             // res.TimeQuantum = obj.TimeQuantum;
-            res.OrderTime = obj.OrderTime;
-            res.OrderProduct = obj.OrderProduct;
-            res.OrderProductID = obj.OrderProductID;
-            //res.Description = obj.Description;
-            res.OrderContact = obj.OrderContact; //预约状态（1.待试衣2.订单完成3.订单失效）
+            res.OrderTime = bookingOrderDTO.OrderTime;
+            res.OrderProduct = bookingOrderDTO.OrderProduct;
+            res.OrderProductID = bookingOrderDTO.OrderProductID;
+            res.Description = bookingOrderDTO.Description;
+            res.OrderContact = 1; //预约状态（1.待试衣2.订单完成3.订单失效）
             res.SubmitTime = DateTime.Now; //提交时间
                                            //  res.AdminDescription = obj.AdminDescription;//商家备注
             CB.UserOrder.Add(res);
@@ -839,15 +838,15 @@ namespace CABIProgram.Controllers
             cc.OrderNum += 1; //预约量+1
             CB.Entry(cc).Property("OrderNum").IsModified = true;
 
-
-
-            try { CB.SaveChanges(); }
+            try { 
+                CB.SaveChanges(); 
+            }
             catch (Exception ex)
             {
-                throw;
+                return Content(HttpStatusCode.BadRequest, new resultInfo { Code = 400, Message = ex.Message, Data = "" });
             }
 
-            return code.returnSuccess("订单提交成功", "");
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message ="OK", Data = "" });
 
         }
 
@@ -1226,9 +1225,6 @@ namespace CABIProgram.Controllers
         #endregion
 
 
-
-
-
         #region 并发测试
         /// <summary>
         /// 并发测试
@@ -1380,26 +1376,36 @@ namespace CABIProgram.Controllers
         [HttpPost,Route("AddUser")]
         public IHttpActionResult AddUserInfo(AddUserDTO addUserDTO)
         {
-            
-            UserInfo user = new UserInfo();
-            user.UserOpenID = addUserDTO.UserOpenID;
-            user.WxHeadImg = addUserDTO.WxHeadImg;
-            user.City = addUserDTO.City;
-            user.Province = addUserDTO.Province;
-            user.Counrty = addUserDTO.Counrty;
-            user.Gender = addUserDTO.Gender;
-            user.Phone = addUserDTO.Phone;
-            user.UserRealName = addUserDTO.UserRealName;
-            user.WxNickName = addUserDTO.WxNickName;
-         
-            CB.UserInfo.Add(user);
-            int i=CB.SaveChanges();
-            if (i == 1)
-            {
-                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "记录成功" });
-            }
 
-            return Content(HttpStatusCode.BadRequest, new resultInfo { Code = 400, Message = "用户信息记录失败，请联系管理员" });
+            bool isExist = CB.UserInfo.Any(s => s.UserOpenID == addUserDTO.UserOpenID);
+
+            if (isExist)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "该用户已经记录" });
+            }
+            else
+            {
+
+                UserInfo user = new UserInfo();
+                user.UserOpenID = addUserDTO.UserOpenID;
+                user.WxHeadImg = addUserDTO.WxHeadImg;
+                user.City = addUserDTO.City;
+                user.Province = addUserDTO.Province;
+                user.Counrty = addUserDTO.Counrty;
+                user.Gender = addUserDTO.Gender;
+                user.Phone = addUserDTO.Phone;
+                user.UserRealName = addUserDTO.UserRealName;
+                user.WxNickName = addUserDTO.WxNickName;
+
+                CB.UserInfo.Add(user);
+                int i = CB.SaveChanges();
+                if (i == 1)
+                {
+                    return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "记录成功" });
+                }
+
+                return Content(HttpStatusCode.BadRequest, new resultInfo { Code = 400, Message = "用户信息记录失败，请联系管理员" });
+            }
             
 
         }

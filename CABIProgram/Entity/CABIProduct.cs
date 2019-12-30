@@ -14,6 +14,13 @@ namespace CABIProgram.Entity
     
     public partial class CABIProduct
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CABIProduct()
+        {
+            this.Wishes = new HashSet<Wishes>();
+            this.UserOrder = new HashSet<UserOrder>();
+        }
+    
         public int ID { get; set; }
         public int ThemeID { get; set; }
         public string NewTitle { get; set; }
@@ -44,5 +51,9 @@ namespace CABIProgram.Entity
         public string ClothInfo { get; set; }
     
         public virtual TitleType TitleType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wishes> Wishes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserOrder> UserOrder { get; set; }
     }
 }

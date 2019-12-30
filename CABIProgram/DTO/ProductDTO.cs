@@ -68,15 +68,28 @@ namespace CABIProgram.DTO
         /// </summary>
         public string ClothInfo { get; set; }
 
+        /// <summary>
+        /// 是否已经在心愿夹
+        /// </summary>
+        public bool IsInWishes { get; set; }
+
 
     }
 
     /// <summary>
-    /// 
+    /// 添加心愿API
     /// </summary>
     public class AddWishDTO
     {
+        /// <summary>
+        /// 产品ID
+        /// </summary>
+        public int ProductID { get; set; }
 
+        /// <summary>
+        /// 用户OpenID
+        /// </summary>
+        public string UserOpenID { get; set; }
     }
 
 

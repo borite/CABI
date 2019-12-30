@@ -14,6 +14,9 @@
         <AssociationConnector Association="CABIProjectModel.FK_CABIProduct_TitleType" />
         <EntityTypeShape EntityType="CABIProjectModel.UserOrder" Width="1.5" PointX="8.375" PointY="3.75" />
         <EntityTypeShape EntityType="CABIProjectModel.UserInfo" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="CABIProjectModel.Wishes" Width="1.5" PointX="7.375" PointY="8.75" />
+        <AssociationConnector Association="CABIProjectModel.FK_Wishes_CABIProduct" />
+        <AssociationConnector Association="CABIProjectModel.FK_UserOrder_CABIProduct" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
