@@ -1282,6 +1282,20 @@ namespace CABIProgram.Controllers
             return jsonobj.access_token;//返回token
         }
 
+        /// <summary>
+        /// 获取登录用户的OpenID
+        /// </summary>
+        /// <param name="code">获取到的code</param>
+        /// <returns></returns>
+        [HttpGet,Route("GetUserOpenID")]
+        public IHttpActionResult GetUserOpenID(string code)
+        {
+            string url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx90bf745f5cc88bd7&secret=167bdd4296423e1e5e06ffca5d49ad5e&js_code=" + code + "&grant_type=authorization_code";
+            string getVal = CreateGetHttpResponse(url);
+            JObject jo = JObject.Parse(getVal);
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "获取成功", Data = jo });
+        }
+
 
         /// <summary>
         /// 获取关联公众号文章
@@ -1355,16 +1369,41 @@ namespace CABIProgram.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
         #endregion
+
+        /// <summary>
+        /// 添加用户信息至数据库
+        /// </summary>
+        /// <param name="addUserDTO"></param>
+        /// <returns></returns>
+        [HttpPost,Route("AddUser")]
+        public IHttpActionResult AddUserInfo(AddUserDTO addUserDTO)
+        {
+            
+            UserInfo user = new UserInfo();
+            user.UserOpenID = addUserDTO.UserOpenID;
+            user.WxHeadImg = addUserDTO.WxHeadImg;
+            user.City = addUserDTO.City;
+            user.Province = addUserDTO.Province;
+            user.Counrty = addUserDTO.Counrty;
+            user.Gender = addUserDTO.Gender;
+            user.Phone = addUserDTO.Phone;
+            user.UserRealName = addUserDTO.UserRealName;
+            user.WxNickName = addUserDTO.WxNickName;
+         
+            CB.UserInfo.Add(user);
+            int i=CB.SaveChanges();
+            if (i == 1)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "记录成功" });
+            }
+
+            return Content(HttpStatusCode.BadRequest, new resultInfo { Code = 400, Message = "用户信息记录失败，请联系管理员" });
+            
+
+        }
+
+
 
         #region 方法合集
         /// <summary>
