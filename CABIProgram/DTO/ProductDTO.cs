@@ -19,6 +19,11 @@ namespace CABIProgram.DTO
         /// 产品名字
         /// </summary>
         public string NewTitle { get; set; }
+
+        /// <summary>
+        /// 商品描述
+        /// </summary>
+        public string Discribe { get; set; }
         /// <summary>
         /// 产品价格
         /// </summary>
@@ -51,7 +56,17 @@ namespace CABIProgram.DTO
         /// <summary>
         /// 面料图片
         /// </summary>
-        public string ImgList { get; set; }
+        public string MaterialImg { get; set; }
+
+        /// <summary>
+        /// 设计理念
+        /// </summary>
+        public string DesignConcept { get; set; }
+
+        /// <summary>
+        /// 面料信息文字
+        /// </summary>
+        public string ClothInfo { get; set; }
 
 
     }

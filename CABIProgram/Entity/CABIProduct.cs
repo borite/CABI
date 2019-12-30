@@ -40,6 +40,8 @@ namespace CABIProgram.Entity
         public Nullable<int> ShareNum { get; set; }
         public byte[] TimeStamp { get; set; }
         public string ContentIMGList { get; set; }
+        public string DesignConcept { get; set; }
+        public string ClothInfo { get; set; }
     
         public virtual TitleType TitleType { get; set; }
     }

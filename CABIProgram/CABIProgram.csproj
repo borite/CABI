@@ -171,6 +171,7 @@
     <Compile Include="Class\zhengze\Common.cs" />
     <Compile Include="Class\zhengze\UserPzz.cs" />
     <Compile Include="Controllers\CABIController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\wxArticalDTO.cs" />
     <Compile Include="Entity\AdminUser.cs">

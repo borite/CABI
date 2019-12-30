@@ -41,8 +41,10 @@
           <Property Name="Color" Type="nvarchar" MaxLength="500" />
           <Property Name="TopRecommend" Type="bit" />
           <Property Name="SizeInfo" Type="nvarchar" MaxLength="500" />
+          <Property Name="DesignConcept" Type="nvarchar" MaxLength="1000" />
           <Property Name="Scene" Type="nvarchar" MaxLength="500" />
           <Property Name="ListImg" Type="nvarchar(max)" />
+          <Property Name="ClothInfo" Type="nvarchar" MaxLength="1000" />
           <Property Name="ImgList" Type="nvarchar(max)" />
           <Property Name="CollectionImg" Type="nvarchar" MaxLength="500" />
           <Property Name="ImgListTopIndex" Type="int" />
@@ -188,6 +190,8 @@
           <Property Name="ShareNum" Type="Int32" />
           <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <Property Name="ContentIMGList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DesignConcept" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ClothInfo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CompanyInfo">
           <Key>
@@ -295,6 +299,8 @@
           <EntitySetMapping Name="CABIProduct">
             <EntityTypeMapping TypeName="CABIProjectModel.CABIProduct">
               <MappingFragment StoreEntitySet="CABIProduct">
+                <ScalarProperty Name="ClothInfo" ColumnName="ClothInfo" />
+                <ScalarProperty Name="DesignConcept" ColumnName="DesignConcept" />
                 <ScalarProperty Name="ContentIMGList" ColumnName="ContentIMGList" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="ShareNum" ColumnName="ShareNum" />
