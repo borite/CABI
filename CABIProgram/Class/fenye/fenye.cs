@@ -7,6 +7,12 @@ namespace CABIProgram.Class.fenye
 {
     public class fenye
     {
+
+        /// <summary>
+        /// 获取分页数据的标识字段，通过这个标识获取对应数据
+        /// </summary>
+        public string targetID { get; set; }
+
         /// <summary>
         /// 每页显示几条
         /// </summary>
@@ -15,7 +21,6 @@ namespace CABIProgram.Class.fenye
         /// 页码索引（第几页）
         /// </summary>
         public int pageIndex { get; set; }
-
 
     }
 }

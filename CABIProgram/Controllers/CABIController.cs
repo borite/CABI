@@ -24,6 +24,8 @@ using WebApi.OutputCache.V2;
 using static ChinaAudio.Class.Code;
 using Swashbuckle.Swagger.Annotations;
 using CABIProgram.DTO;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace CABIProgram.Controllers
 {
@@ -911,21 +913,25 @@ namespace CABIProgram.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("AdminOrderList2")]
-        public string AdminOrderList2(fenye obj)
+        public IHttpActionResult AdminOrderList2(fenye obj)
         {
-
             //每页展示几条内容
             int pageSize = obj.pageSize;
             //当前页码
             int pageIndex = obj.pageIndex;
 
-
-
-
             var total = CB.UserOrder.Count();
 
-            var list = CB.UserOrder.OrderByDescending(a => a.SubmitTime).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
-            return code.returnSuccess2(list, total, " admin查看预约列表（按提交时间排序）");
+            var list = CB.UserOrder.AsNoTracking().Where(s => s.OrderOpenID == obj.targetID).OrderByDescending(a => a.SubmitTime).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
+
+            if (list == null)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 404, Message = "您还没有预约记录" });
+            }
+
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = list });
+
+            //return code.returnSuccess2(list, total, " admin查看预约列表（按提交时间排序）");
 
         }
 
@@ -934,24 +940,32 @@ namespace CABIProgram.Controllers
         /// </summary>
         /// <param name="obj">pageSize  pageIndex   OrderOpenID(预约ID) </param>
         /// <returns></returns>
-        [HttpPost, Route("OrderList1")]
-        public string OrderList1([FromBody] JObject obj)
+        [HttpPost, Route("GetOrderList")]
+        public IHttpActionResult GetOrderList(fenye obj)
         {
 
-            //m每页显示几条内容
-            int pageSize = Convert.ToInt16(obj["pageSize"]);
+            //每页展示几条内容
+            int pageSize = obj.pageSize;
             //当前页码
-            int pageIndex = Convert.ToInt16(obj["pageIndex"]);
+            int pageIndex = obj.pageIndex;
 
-            string OrderOpenID = obj["OrderOpenID"].ToString();
+            var total = CB.UserOrder.Count();
 
+            var list = CB.UserOrder.AsNoTracking().Where(s => s.OrderOpenID == obj.targetID).OrderByDescending(a => a.SubmitTime).Skip(pageSize * (pageIndex - 1)).Take(pageSize).Select(s=>new { 
+                pid=s.OrderProductID,
+                pname=s.OrderProduct,
+                otime= s.OrderTime,
+                opic=s.CABIProduct.CollectionImg,
+                state=s.OrderContact,
+                ID=s.OrderID
+            });
 
-            var total = CB.UserOrder.Where(a => a.OrderOpenID == OrderOpenID).Count();
+            if (list == null)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 404, Message = "您还没有预约记录" });
+            }
 
-            var list = CB.UserOrder.Where(a => a.OrderOpenID == OrderOpenID).OrderByDescending(a => a.SubmitTime).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
-            return code.returnSuccess2(list, total, "前台查看信息(按预约时间最近排序)，当前是第" + pageIndex + "页，每页显示" + pageSize + "条内容");
-
-
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = list });
         }
 
         #endregion
@@ -1410,6 +1424,46 @@ namespace CABIProgram.Controllers
 
         }
 
+        /// <summary>
+        /// 获取用户心愿夹列表
+        /// </summary>
+        /// <param name="openID">用户微信openID</param>
+        /// <returns></returns>
+        [HttpGet,Route("GetUserWishes")]
+        public IHttpActionResult GetUserWishes(string openID)
+        {
+            var wishes = CB.Wishes.Where(s => s.UserOpenID == openID).Select(a => new
+            {
+                a.ProductID,
+                a.ID,
+                a.CABIProduct.CollectionImg,
+                a.CABIProduct.NewTitle,
+                a.CABIProduct.Price
+            });
+            if (wishes != null)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = wishes });
+            }
+            
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "NO" });
+
+        }
+
+        /// <summary>
+        /// 删除心愿
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost,Route("DelWishes")]
+        public IHttpActionResult DelWishes(int id)
+        {
+            int i = CB.Database.ExecuteSqlCommand("delete from Wishes where ID=@id", new SqlParameter("@id", id));
+            if (i == 1)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "移除成功" });
+            }
+            return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "未找到相关记录" });
+        }
 
 
         #region 方法合集
