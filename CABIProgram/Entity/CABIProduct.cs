@@ -17,43 +17,43 @@ namespace CABIProgram.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CABIProduct()
         {
-            this.Wishes = new HashSet<Wishes>();
             this.UserOrder = new HashSet<UserOrder>();
+            this.Wishes = new HashSet<Wishes>();
         }
     
         public int ID { get; set; }
-        public int ThemeID { get; set; }
+        public Nullable<int> ThemeID { get; set; }
         public string NewTitle { get; set; }
+        public string Discribe { get; set; }
         public Nullable<decimal> Price { get; set; }
         public string Contents { get; set; }
         public string Color { get; set; }
-        public Nullable<bool> TopRecommend { get; set; }
+        public bool TopRecommend { get; set; }
         public string SizeInfo { get; set; }
+        public string DesignConcept { get; set; }
         public string Scene { get; set; }
         public string ListImg { get; set; }
+        public string ClothInfo { get; set; }
         public string ImgList { get; set; }
+        public string CollectionImg { get; set; }
         public Nullable<int> ImgListTopIndex { get; set; }
         public Nullable<int> ProductClickNum { get; set; }
         public Nullable<int> CollectionNum { get; set; }
         public Nullable<int> OrderNum { get; set; }
+        public Nullable<int> ShareNum { get; set; }
         public Nullable<System.DateTime> AddTime { get; set; }
         public Nullable<int> Desplay { get; set; }
         public Nullable<int> AllDesplay { get; set; }
+        public Nullable<int> TopDesplay { get; set; }
         public Nullable<bool> IsLocked { get; set; }
         public string Remark { get; set; }
-        public Nullable<int> TopDesplay { get; set; }
-        public string Discribe { get; set; }
-        public string CollectionImg { get; set; }
-        public Nullable<int> ShareNum { get; set; }
         public byte[] TimeStamp { get; set; }
         public string ContentIMGList { get; set; }
-        public string DesignConcept { get; set; }
-        public string ClothInfo { get; set; }
+        public string SubTitle { get; set; }
     
-        public virtual TitleType TitleType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wishes> Wishes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserOrder> UserOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wishes> Wishes { get; set; }
     }
 }

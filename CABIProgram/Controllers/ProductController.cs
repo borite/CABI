@@ -41,7 +41,7 @@ namespace CABIProgram.Controllers
                 Price = i.Price,
                 Scene = i.Scene,
                 SizeInfo = i.SizeInfo,
-                ThemeID = i.ThemeID,
+                ThemeID = (int)i.ThemeID,
                 ClothInfo = i.ClothInfo,
                 DesignConcept = i.DesignConcept,
                 IsInWishes=isInWishes
@@ -131,7 +131,7 @@ namespace CABIProgram.Controllers
             IQueryable products = null;
             if (ID == 0)
             {
-                products = CB.CABIProduct.OrderByDescending(p => p.ID).Select(a => new
+                products = CB.CABIProduct.OrderByDescending(p => p.Desplay).ThenByDescending(s=>s.ID).Select(a => new
                 {
                     a.ID,
                     ProductName = a.NewTitle,
@@ -140,7 +140,7 @@ namespace CABIProgram.Controllers
             }
             else
             {
-                products = CB.CABIProduct.Where(s => s.ThemeID == ID && s.IsLocked == false).OrderByDescending(p => p.ID).Select(a => new
+                products = CB.CABIProduct.Where(s => s.ThemeID == ID && s.IsLocked == false).OrderByDescending(p => p.Desplay).ThenByDescending(s => s.ID).Select(a => new
                 {
                     a.ID,
                     ProductName = a.NewTitle,
