@@ -25,9 +25,9 @@ namespace CABIProgram.Controllers
         /// <returns></returns>
         [HttpGet, Route("GetProductInfo")]
         [SwaggerResponse(HttpStatusCode.OK,Type =typeof(ProductDTO))]
-        public IHttpActionResult GetProductInfo([FromUri]int ID)
+        public IHttpActionResult GetProductInfo([FromUri]int ID,string openid)
         {
-            var isInWishes = CB.Wishes.Any(s => s.ProductID == ID);
+            var isInWishes = CB.Wishes.Any(s => s.ProductID == ID && s.UserOpenID == openid);
 
             var pinfo = CB.CABIProduct.Where(s => s.ID == ID).Select(i => new ProductDTO
             {

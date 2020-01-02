@@ -1465,6 +1465,23 @@ namespace CABIProgram.Controllers
             return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "未找到相关记录" });
         }
 
+        /// <summary>
+        /// 从商品信息表中删除心愿
+        /// </summary>
+        /// <param name="obj">传入UserOpenID和pid</param>
+        /// <returns></returns>
+        [HttpPost,Route("DelWishesFromInfo")]
+        public IHttpActionResult DelWishesFromInfo(JObject obj)
+        {
+            int i = CB.Database.ExecuteSqlCommand("delete from Wishes where UserOpenID=@uid and ProductID=@pid", new SqlParameter("@uid", obj["UserOpenID"].ToString()), new SqlParameter("@pid", obj["pid"].ToString()));
+
+            if (i == 1)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "移除成功" });
+            }
+            return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "未找到相关记录" });
+        }
+
 
         #region 方法合集
         /// <summary>
