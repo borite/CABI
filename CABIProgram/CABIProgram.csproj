@@ -147,11 +147,16 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="test\IMGTEST\addimg 滚动图.html" />
+    <Content Include="test\IMGTEST\addimg 详情图.html" />
+    <Content Include="test\IMGTEST\addimg 面料图.html" />
     <Content Include="test\IMGTEST\addimg.html" />
+    <Content Include="test\IMGTEST\addimg收藏和列表图.html" />
     <Content Include="test\IMGTEST\jquery\jquery-3.4.1.min.js" />
     <Content Include="test\IMGTEST\ProductImgList.html" />
     <Content Include="test\IMGTEST\updateimg.html" />
     <Content Include="test\IMGTEST\uploadList.html" />
+    <Content Include="test\IMGTEST\UploadP.html" />
     <Content Include="test\IMGTEST\uploadtest.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -238,6 +243,7 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\DavidZheng察必API.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\察必成功发布配置.pubxml" />
     <None Include="Web.Debug.config">

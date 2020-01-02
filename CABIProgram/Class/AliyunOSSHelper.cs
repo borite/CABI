@@ -76,6 +76,21 @@ namespace ChinaAudio.Class
 
 
     }
+
+    /// <summary>
+    /// 产品面料图字符串配置
+    /// </summary>
+    public class ClothInfoOSSHelper : OssConfig
+    {
+
+        //文件命名路径，后面需要填写随机数和后缀名加在后面，然后就可以放到指定目录了，这里写好文件夹就好
+        public static string objectPath = "CABIIMG/ClothIMG/";
+        //图片前面的命名规则
+        public static string ImgFirstName = "Cloinfo";
+
+
+    }
+
     /// <summary>
     /// 产品编辑配置
     /// </summary>

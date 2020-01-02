@@ -326,7 +326,7 @@ namespace CABIProgram.Controllers
 
 
         /// <summary>
-        /// 列表页多图片上传(更新加上传)
+        /// 产品滚动图多图片上传(更新加上传)
         /// </summary>
         /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
         /// <returns></returns>
@@ -390,150 +390,150 @@ namespace CABIProgram.Controllers
         }
 
 
+        ///// <summary>
+        ///// 详情页多图片上传
+        ///// </summary>
+        ///// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
+        ///// <returns></returns>
+        //[HttpPost, Route("productsInfoList")]
+        //public string productsInfolist([FromBody] JObject obj)
+        //{
+        //    var ID = Convert.ToInt32(obj["ID"]);
+
+        //    string jsonval = obj["imgs"].ToString();
+        //    var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
+        //    //上传多张图片的方法，返回一个,分隔的图片地址字符串
+        //    string urllist = IMGListFun(reslist, ProductsInfoOSSHelper.ImgFirstName, ProductsInfoOSSHelper.objectPath, ProductsInfoOSSHelper.endpoint, ProductsInfoOSSHelper.accessKeyId, ProductsInfoOSSHelper.accessKeySecret, ProductsInfoOSSHelper.bucketName);
+        //    var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+        //    cc.ImgList = urllist;
+        //    CB.SaveChanges();
+        //    return code.returnSuccess("详情页上传成功", cc.ImgList);
+        //}
+
+        ///// <summary>
+        ///// 编辑器增加oss图片数组
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpPost, Route("ContentIMGList")]
+        //public IHttpActionResult ContentIMGList([FromBody] JObject obj)
+        //{
+
+        //    var ID = Convert.ToInt32(obj["ID"]);
+
+        //    string jsonval = obj["imgs"].ToString();
+        //    var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
+        //    //上传多张图片的方法，返回一个,分隔的图片地址字符串
+        //    string urllist = IMGListFun(reslist, ProductEditIMG.ImgFirstName, ProductEditIMG.objectPath, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, ProductEditIMG.bucketName);
+        //    var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+        //    cc.ImgList = urllist;
+        //    CB.SaveChanges();
+        //    return Content(HttpStatusCode.OK, code.returnSuccess("成功", urllist));
+        //}
+
+        ///// <summary>
+        ///// 更新编辑器图，可更新可添加，用一个即可
+        ///// </summary>
+        ///// <param name="obj">需要产品ID和imgs数组</param>
+        ///// <returns></returns>
+        //[HttpPost, Route("UpdateEdit")]
+        //public IHttpActionResult UpdateEdit([FromBody] JObject obj)
+        //{
+        //    try
+        //    {
+
+        //        var ID = Convert.ToInt32(obj["ID"]);
+        //        var search = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+        //        string jsonval = obj["imgs"].ToString();
+        //        var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval); //反序列化成json
+
+        //        var urlListstr = search.ContentIMGList; //读取数据库中的字符串
+        //        if (string.IsNullOrEmpty(urlListstr)) //如果是空的，直接添加新的字符串，不删除 这是增加操作
+        //        {
+
+        //            //上传多张图片的方法，返回一个,分隔的图片地址字符串
+        //            string urllist = IMGListFun(reslist, ProductEditIMG.ImgFirstName, ProductEditIMG.objectPath, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, ProductEditIMG.bucketName);
+        //            // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+        //            //数据库赋值
+        //            search.ContentIMGList = urllist; //注意这里每次记得修改，数据库对应字段赋值
+        //            CB.SaveChanges();
+        //            return Content(HttpStatusCode.OK, code.returnSuccess("如果是空的，相当于插入直接更新", search.ContentIMGList));
+
+
+        //        }
+        //        else //如果有内容删掉之前的oss文件，再写入新的oss文件
+        //        {
+        //            string[] arraystring = urlListstr.Split(','); //转化一下，先删除数据库中的图片
+        //            foreach (var item in arraystring) //删除oss的对应图片
+        //            {
+        //                // var substringURL = item.Substring(49);
+        //                RemoveIMGFun(ProductsInfoOSSHelper.bucketName, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, item, 49);
+
+        //            }
+        //            //上传多张图片的方法，返回一个,分隔的图片地址字符串
+        //            string urllist = IMGListFun(reslist, ProductEditIMG.ImgFirstName, ProductEditIMG.objectPath, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, ProductEditIMG.bucketName);
+        //            // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+        //            //数据库赋值
+        //            search.ContentIMGList = urllist;
+        //            CB.SaveChanges();
+        //            return Content(HttpStatusCode.OK, code.returnSuccess("数据更新", search.ContentIMGList));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        //  return code.returnFail(ex);
+        //        return Content(HttpStatusCode.BadRequest, code.returnFail(ex));
+        //    }
+
+
+
+
+
+
+        //}
+
+
+
+
+
+        ///// <summary>
+        ///// 收藏图上传
+        ///// </summary>
+        ///// <param name="obj">传入ID还有一个 businessParam的数组 里面的格式是{ imgs: （二进制文件）imgurl,ID: (产品ID)IDval}  </param>
+        ///// <returns>data返回具体地址</returns>
+        //[HttpPost, Route("AddCollection")]
+        //public string AddCollection([FromBody]JObject obj)
+        //{
+        //    try
+        //    {
+
+        //        var ID = Convert.ToInt32(obj["ID"]);
+        //        var search = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+
+
+
+        //        string jsonval = obj["imgs"].ToString();
+        //        var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
+        //        //上传多张图片的方法，返回一个,分隔的图片地址字符串
+        //        string urllist = IMGListFun(reslist, ProductCollectionOSSHelper.ImgFirstName, ProductCollectionOSSHelper.objectPath, ProductCollectionOSSHelper.endpoint, ProductCollectionOSSHelper.accessKeyId, ProductCollectionOSSHelper.accessKeySecret, ProductCollectionOSSHelper.bucketName);
+        //        search.CollectionImg = urllist;
+        //        CB.SaveChanges();
+        //        return code.returnSuccess("收藏图上传成功", search.CollectionImg);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return code.returnFail(ex);
+        //    }
+
+
+
+
+        //}
+
         /// <summary>
-        /// 详情页多图片上传
-        /// </summary>
-        /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
-        /// <returns></returns>
-        [HttpPost, Route("productsInfoList")]
-        public string productsInfolist([FromBody] JObject obj)
-        {
-            var ID = Convert.ToInt32(obj["ID"]);
-
-            string jsonval = obj["imgs"].ToString();
-            var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
-            //上传多张图片的方法，返回一个,分隔的图片地址字符串
-            string urllist = IMGListFun(reslist, ProductsInfoOSSHelper.ImgFirstName, ProductsInfoOSSHelper.objectPath, ProductsInfoOSSHelper.endpoint, ProductsInfoOSSHelper.accessKeyId, ProductsInfoOSSHelper.accessKeySecret, ProductsInfoOSSHelper.bucketName);
-            var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-            cc.ImgList = urllist;
-            CB.SaveChanges();
-            return code.returnSuccess("详情页上传成功", cc.ImgList);
-        }
-
-        /// <summary>
-        /// 编辑器增加oss图片数组
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost, Route("ContentIMGList")]
-        public IHttpActionResult ContentIMGList([FromBody] JObject obj)
-        {
-
-            var ID = Convert.ToInt32(obj["ID"]);
-
-            string jsonval = obj["imgs"].ToString();
-            var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
-            //上传多张图片的方法，返回一个,分隔的图片地址字符串
-            string urllist = IMGListFun(reslist, ProductEditIMG.ImgFirstName, ProductEditIMG.objectPath, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, ProductEditIMG.bucketName);
-            var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-            cc.ImgList = urllist;
-            CB.SaveChanges();
-            return Content(HttpStatusCode.OK, code.returnSuccess("成功", urllist));
-        }
-
-        /// <summary>
-        /// 更新编辑器图，可更新可添加，用一个即可
-        /// </summary>
-        /// <param name="obj">需要产品ID和imgs数组</param>
-        /// <returns></returns>
-        [HttpPost, Route("UpdateEdit")]
-        public IHttpActionResult UpdateEdit([FromBody] JObject obj)
-        {
-            try
-            {
-
-                var ID = Convert.ToInt32(obj["ID"]);
-                var search = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-                string jsonval = obj["imgs"].ToString();
-                var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval); //反序列化成json
-
-                var urlListstr = search.ContentIMGList; //读取数据库中的字符串
-                if (string.IsNullOrEmpty(urlListstr)) //如果是空的，直接添加新的字符串，不删除 这是增加操作
-                {
-
-                    //上传多张图片的方法，返回一个,分隔的图片地址字符串
-                    string urllist = IMGListFun(reslist, ProductEditIMG.ImgFirstName, ProductEditIMG.objectPath, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, ProductEditIMG.bucketName);
-                    // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-                    //数据库赋值
-                    search.ContentIMGList = urllist; //注意这里每次记得修改，数据库对应字段赋值
-                    CB.SaveChanges();
-                    return Content(HttpStatusCode.OK, code.returnSuccess("如果是空的，相当于插入直接更新", search.ContentIMGList));
-
-
-                }
-                else //如果有内容删掉之前的oss文件，再写入新的oss文件
-                {
-                    string[] arraystring = urlListstr.Split(','); //转化一下，先删除数据库中的图片
-                    foreach (var item in arraystring) //删除oss的对应图片
-                    {
-                        // var substringURL = item.Substring(49);
-                        RemoveIMGFun(ProductsInfoOSSHelper.bucketName, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, item, 49);
-
-                    }
-                    //上传多张图片的方法，返回一个,分隔的图片地址字符串
-                    string urllist = IMGListFun(reslist, ProductEditIMG.ImgFirstName, ProductEditIMG.objectPath, ProductEditIMG.endpoint, ProductEditIMG.accessKeyId, ProductEditIMG.accessKeySecret, ProductEditIMG.bucketName);
-                    // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-                    //数据库赋值
-                    search.ContentIMGList = urllist;
-                    CB.SaveChanges();
-                    return Content(HttpStatusCode.OK, code.returnSuccess("数据更新", search.ContentIMGList));
-                }
-            }
-            catch (Exception ex)
-            {
-
-                //  return code.returnFail(ex);
-                return Content(HttpStatusCode.BadRequest, code.returnFail(ex));
-            }
-
-
-
-
-
-
-        }
-
-
-
-
-
-        /// <summary>
-        /// 收藏图上传
-        /// </summary>
-        /// <param name="obj">传入ID还有一个 businessParam的数组 里面的格式是{ imgs: （二进制文件）imgurl,ID: (产品ID)IDval}  </param>
-        /// <returns>data返回具体地址</returns>
-        [HttpPost, Route("AddCollection")]
-        public string AddCollection([FromBody]JObject obj)
-        {
-            try
-            {
-
-                var ID = Convert.ToInt32(obj["ID"]);
-                var search = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-
-
-
-                string jsonval = obj["imgs"].ToString();
-                var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
-                //上传多张图片的方法，返回一个,分隔的图片地址字符串
-                string urllist = IMGListFun(reslist, ProductCollectionOSSHelper.ImgFirstName, ProductCollectionOSSHelper.objectPath, ProductCollectionOSSHelper.endpoint, ProductCollectionOSSHelper.accessKeyId, ProductCollectionOSSHelper.accessKeySecret, ProductCollectionOSSHelper.bucketName);
-                search.CollectionImg = urllist;
-                CB.SaveChanges();
-                return code.returnSuccess("收藏图上传成功", search.CollectionImg);
-
-            }
-            catch (Exception ex)
-            {
-
-                return code.returnFail(ex);
-            }
-
-
-
-
-        }
-
-        /// <summary>
-        /// 更新一个详情图
+        /// 更新一个详情图(更新和上传)
         /// </summary>
         /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
         /// <returns></returns>
@@ -548,7 +548,7 @@ namespace CABIProgram.Controllers
                 string jsonval = obj["imgs"].ToString();
                 var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval); //反序列化成json
 
-                var urlListstr = search.ImgList; //读取数据库中的字符串
+                var urlListstr = search.Contents; //读取数据库中的字符串
                 if (string.IsNullOrEmpty(urlListstr)) //如果是空的，直接添加新的字符串，不删除
                 {
 
@@ -556,9 +556,9 @@ namespace CABIProgram.Controllers
                     string urllist = IMGListFun(reslist, ProductsInfoOSSHelper.ImgFirstName, ProductsInfoOSSHelper.objectPath, ProductsInfoOSSHelper.endpoint, ProductsInfoOSSHelper.accessKeyId, ProductsInfoOSSHelper.accessKeySecret, ProductsInfoOSSHelper.bucketName);
                     // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
                     //数据库赋值
-                    search.ImgList = urllist;
+                    search.Contents = urllist;
                     CB.SaveChanges();
-                    return code.returnSuccess("详情页更新成功", search.ImgList);
+                    return code.returnSuccess("详情页更新成功", search.Contents);
 
                 }
                 else //如果有内容删掉之前的oss文件，再写入新的oss文件
@@ -576,6 +576,63 @@ namespace CABIProgram.Controllers
                     string urllist = IMGListFun(reslist, ProductsInfoOSSHelper.ImgFirstName, ProductsInfoOSSHelper.objectPath, ProductsInfoOSSHelper.endpoint, ProductsInfoOSSHelper.accessKeyId, ProductsInfoOSSHelper.accessKeySecret, ProductsInfoOSSHelper.bucketName);
                     // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
                     //数据库赋值
+                    search.Contents = urllist;
+                    CB.SaveChanges();
+                    return code.returnSuccess("详情页更新成功", search.Contents);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return code.returnFail(ex);
+            }
+
+
+        }
+
+        /// <summary>
+        /// 更新一个面料图(更新和上传通用)
+        /// </summary>
+        /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
+        /// <returns></returns>
+        [HttpPost, Route("UpdateCloseInfoIMG")]
+        public string UpdateCloseInfoIMG([FromBody]JObject obj)
+        {
+            try
+            {
+
+                var ID = Convert.ToInt32(obj["ID"]);
+                var search = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+                string jsonval = obj["imgs"].ToString();
+                var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval); //反序列化成json
+
+                var urlListstr = search.ImgList; //读取数据库中的字符串
+                if (string.IsNullOrEmpty(urlListstr)) //如果是空的，直接添加新的字符串，不删除
+                {
+                    //上传多张图片的方法，返回一个,分隔的图片地址字符串
+                    string urllist = IMGListFun(reslist, ClothInfoOSSHelper.ImgFirstName, ClothInfoOSSHelper.objectPath, ClothInfoOSSHelper.endpoint, ClothInfoOSSHelper.accessKeyId, ClothInfoOSSHelper.accessKeySecret, ClothInfoOSSHelper.bucketName);
+                    // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+                    //数据库赋值
+                    search.ImgList = urllist;
+                    CB.SaveChanges();
+                    return code.returnSuccess("详情页更新成功", search.ImgList);
+
+                }
+                else //如果有内容删掉之前的oss文件，再写入新的oss文件
+                {
+                    string[] arraystring = urlListstr.Split(','); //转化一下，先删除数据库中的图片
+                                                                  //需要截取路径，把前面的域名截取掉
+
+                    foreach (var item in arraystring) //删除oss的对应图片
+                    {
+                        //var substringURL = item.Substring(49);
+                        RemoveIMGFun(ClothInfoOSSHelper.bucketName, ProductsListOSSHelper.endpoint, ProductsListOSSHelper.accessKeyId, ProductsListOSSHelper.accessKeySecret, item, 49);
+
+                    }
+                    //上传多张图片的方法，返回一个,分隔的图片地址字符串
+                    string urllist = IMGListFun(reslist, ClothInfoOSSHelper.ImgFirstName, ClothInfoOSSHelper.objectPath, ClothInfoOSSHelper.endpoint, ClothInfoOSSHelper.accessKeyId, ClothInfoOSSHelper.accessKeySecret, ClothInfoOSSHelper.bucketName);
+                    // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
+                    //数据库赋值
                     search.ImgList = urllist;
                     CB.SaveChanges();
                     return code.returnSuccess("详情页更新成功", search.ImgList);
@@ -588,15 +645,12 @@ namespace CABIProgram.Controllers
             }
 
 
-
-
         }
 
 
 
-
         /// <summary>
-        /// 更新一个收藏图
+        /// 更新一个收藏图和列表图（两个图用的一张图）
         /// </summary>
         /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
         /// <returns></returns>
@@ -620,7 +674,7 @@ namespace CABIProgram.Controllers
                     //数据库赋值
                     search.CollectionImg = urllist; //注意这里每次记得修改，数据库对应字段赋值
                     CB.SaveChanges();
-                    return code.returnSuccess("详情页更新成功", search.ListImg);
+                    return code.returnSuccess("收藏图首次上传成功", search.CollectionImg);
 
                 }
                 else //如果有内容删掉之前的oss文件，再写入新的oss文件
@@ -654,7 +708,7 @@ namespace CABIProgram.Controllers
 
 
         /// <summary>
-        /// 删除产品(列表图、编辑器图、收藏图、详情图)
+        /// 删除产品(衣服尺码图、收藏和列表图图、详情图)
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -665,10 +719,13 @@ namespace CABIProgram.Controllers
             var cc = CB.CABIProduct.Where(a => a.ID == obj.ID).FirstOrDefault();
             string[] IMGlist = Array.Empty<string>(); //返回一个空数组
             List<string> AddIMGlist = IMGlist.ToList();//后面可以添加
-            AddIMGlist.Add(cc.ImgList);
-            AddIMGlist.Add(cc.ListImg);
-            AddIMGlist.Add(cc.CollectionImg);
-            AddIMGlist.Add(cc.ContentIMGList);
+            AddIMGlist.Add(cc.ImgList); //面料图
+            AddIMGlist.Add(cc.ListImg); //详情滚动图
+            AddIMGlist.Add(cc.Contents); //删除详情图
+            AddIMGlist.Add(cc.CollectionImg); //收藏图+封面
+         
+
+          //  AddIMGlist.Add(cc.ListImg);
             string vals = string.Join(",", AddIMGlist); //转换成，分隔的字符串
 
             string[] arraystring = vals.Split(','); //转化一下，删除数据库中的图片
