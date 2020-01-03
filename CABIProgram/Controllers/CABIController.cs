@@ -221,7 +221,9 @@ namespace CABIProgram.Controllers
             var list = CB.CABIProduct.Where(a => a.IsLocked == false && a.TopRecommend == true).OrderByDescending(a => a.TopDesplay).Skip(pageSize * (pageIndex - 1)).Take(pageSize).Select(s => new
             {
                 s.ID,
-                s.CollectionImg
+                s.CollectionImg,
+                s.SubTitle,
+                s.NewTitle
             });
 
             if (list != null)
