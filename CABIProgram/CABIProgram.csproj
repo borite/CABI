@@ -147,7 +147,7 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="test\IMGTEST\addimg 加首页轮播图.html" />
+    <Content Include="test\IMGTEST\addimg Banner图上传.html" />
     <Content Include="test\IMGTEST\addimg 滚动图.html" />
     <Content Include="test\IMGTEST\addimg 详情图.html" />
     <Content Include="test\IMGTEST\addimg 面料图.html" />
@@ -179,6 +179,7 @@
     <Compile Include="Controllers\CABIController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DTO\AddUserDTO.cs" />
+    <Compile Include="DTO\BannerDTO.cs" />
     <Compile Include="DTO\BookingOrderDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\wxArticalDTO.cs" />

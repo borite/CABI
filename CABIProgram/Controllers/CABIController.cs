@@ -26,6 +26,7 @@ using Swashbuckle.Swagger.Annotations;
 using CABIProgram.DTO;
 using System.Data;
 using System.Data.SqlClient;
+using static CABIProgram.DTO.BannerDTO;
 
 namespace CABIProgram.Controllers
 {
@@ -43,9 +44,9 @@ namespace CABIProgram.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, Route("BannerList")]
-        public IHttpActionResult BannerList()
+        public IHttpActionResult BannerList([FromUri] byte type)
         {
-            var cc = CB.Banner.AsNoTracking().Where(a => a.IsLocked == false).OrderByDescending(a => a.Display);
+            var cc = CB.Banner.AsNoTracking().Where(a => a.IsLocked == false&&a.type==type).OrderByDescending(a => a.Display).ThenByDescending(a=>a.ID).ToList();
             if (cc != null)
             {
                 return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "获取成功", Data = cc });
@@ -58,9 +59,9 @@ namespace CABIProgram.Controllers
         /// </summary>
 
         [HttpGet, Route("AdminBannerList")]
-        public string AdminBannerList()
+        public string AdminBannerList([FromUri] byte type)
         {
-            var cc = CB.Banner.AsNoTracking().OrderByDescending(a => a.Display);
+            var cc = CB.Banner.AsNoTracking().Where(a=>a.type==type).OrderByDescending(a => a.Display).ThenByDescending(a=>a.ID).ToList();
             return code.returnSuccess(cc, "返回Banner列表，admin使用");
         }
 
@@ -71,7 +72,7 @@ namespace CABIProgram.Controllers
         /// <param name="jsonObj"></param>
         /// <returns></returns>
         [HttpPost, Route("AddBanner")]
-        public string AddBanner(Banner jsonObj)
+        public string AddBanner(CreatBannerData jsonObj)
         {
 
 
@@ -82,6 +83,7 @@ namespace CABIProgram.Controllers
             res.URL = jsonObj.URL;
             res.IsLocked = jsonObj.IsLocked;
             res.Display = jsonObj.Display;
+            res.type = jsonObj.type;
 
 
             CB.Banner.Add(res);
@@ -151,7 +153,7 @@ namespace CABIProgram.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost, Route("RemoveBanner")]
-        public string RemoveBanner(Banner obj)
+        public string RemoveBanner(DeleteBannerDTO obj)
         { //查找要删除的Banner链接
             var cc = CB.Banner.Where(a => a.ID == obj.ID).FirstOrDefault();
 
@@ -183,15 +185,16 @@ namespace CABIProgram.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost, Route("UpdateBanner")]
-        public string UpdateBanner(Banner obj)
+        public string UpdateBanner(UpdateBannerData obj)
         {
             var cc = CB.Banner.Where(a => a.ID == obj.ID).FirstOrDefault();
             cc.Title = obj.Title;
             cc.URL = obj.URL;
             cc.IsLocked = obj.IsLocked;
             cc.Display = obj.Display;
+            cc.type = obj.type;
             CB.SaveChanges();
-            return code.returnSuccess("更新banner成功", "");
+            return code.returnSuccess("更新banner成功", cc);
         }
 
 
