@@ -14,7 +14,7 @@ namespace CABIProgram.DTO
         /// <summary>
         /// 分类ID
         /// </summary>
-        public  Nullable<int> ThemeID { get; set; }
+        public int ThemeID { get; set; }
         /// <summary>
         /// 产品名字
         /// </summary>

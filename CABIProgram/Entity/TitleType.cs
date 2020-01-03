@@ -14,9 +14,18 @@ namespace CABIProgram.Entity
     
     public partial class TitleType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TitleType()
+        {
+            this.CABIProduct = new HashSet<CABIProduct>();
+        }
+    
         public int ID { get; set; }
         public string Title { get; set; }
         public int Display { get; set; }
         public bool IsLocked { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CABIProduct> CABIProduct { get; set; }
     }
 }

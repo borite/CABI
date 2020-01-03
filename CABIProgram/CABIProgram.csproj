@@ -138,8 +138,8 @@
     <EmbeddedResource Include="Class\swagger\swagger.js" />
     <Content Include="Entity\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Entity\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -179,7 +179,6 @@
     <Compile Include="Controllers\CABIController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DTO\AddUserDTO.cs" />
-    <Compile Include="DTO\BannerDTO.cs" />
     <Compile Include="DTO\BookingOrderDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\wxArticalDTO.cs" />
@@ -231,16 +230,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="libman.json" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <EntityDeploy Include="Entity\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Entity\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-    <Content Include="libman.json" />
-    <Content Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
     </Content>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />

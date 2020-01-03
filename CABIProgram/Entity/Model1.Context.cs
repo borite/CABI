@@ -18,7 +18,6 @@ namespace CABIProgram.Entity
         public CABIProjectEntities()
             : base("name=CABIProjectEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
