@@ -27,19 +27,20 @@
           <Property Name="URL" Type="nvarchar" MaxLength="500" />
           <Property Name="IsLocked" Type="bit" />
           <Property Name="Display" Type="int" />
+          <Property Name="type" Type="tinyint" />
         </EntityType>
         <EntityType Name="CABIProduct">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ThemeID" Type="int" Nullable="false" />
+          <Property Name="ThemeID" Type="int" />
           <Property Name="NewTitle" Type="nvarchar" MaxLength="200" />
           <Property Name="Discribe" Type="nvarchar" MaxLength="500" />
           <Property Name="Price" Type="money" />
           <Property Name="Contents" Type="text" />
           <Property Name="Color" Type="nvarchar" MaxLength="500" />
-          <Property Name="TopRecommend" Type="bit" />
+          <Property Name="TopRecommend" Type="bit" Nullable="false" />
           <Property Name="SizeInfo" Type="nvarchar" MaxLength="500" />
           <Property Name="DesignConcept" Type="nvarchar" MaxLength="1000" />
           <Property Name="Scene" Type="nvarchar" MaxLength="500" />
@@ -60,6 +61,7 @@
           <Property Name="Remark" Type="nvarchar" MaxLength="500" />
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
           <Property Name="ContentIMGList" Type="nvarchar(max)" />
+          <Property Name="SubTitle" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="CompanyInfo">
           <Key>
@@ -130,9 +132,7 @@
           <Property Name="AddTime" Type="datetime" />
         </EntityType>
         <Association Name="FK_CABIProduct_TitleType">
-          <End Role="TitleType" Type="Self.TitleType" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="TitleType" Type="Self.TitleType" Multiplicity="0..1" />
           <End Role="CABIProduct" Type="Self.CABIProduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TitleType">
@@ -198,13 +198,36 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CABIProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CABIProjectEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="AdminUser" EntityType="CABIProjectModel.AdminUser" />
+          <EntitySet Name="Banner" EntityType="CABIProjectModel.Banner" />
+          <EntitySet Name="CABIProduct" EntityType="CABIProjectModel.CABIProduct" />
+          <EntitySet Name="CompanyInfo" EntityType="CABIProjectModel.CompanyInfo" />
+          <EntitySet Name="ProgramData" EntityType="CABIProjectModel.ProgramData" />
+          <EntitySet Name="TitleType" EntityType="CABIProjectModel.TitleType" />
+          <EntitySet Name="UserInfo" EntityType="CABIProjectModel.UserInfo" />
+          <EntitySet Name="UserOrder" EntityType="CABIProjectModel.UserOrder" />
+          <EntitySet Name="Wishes" EntityType="CABIProjectModel.Wishes" />
+          <AssociationSet Name="FK_CABIProduct_TitleType" Association="CABIProjectModel.FK_CABIProduct_TitleType">
+            <End Role="TitleType" EntitySet="TitleType" />
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder_CABIProduct" Association="CABIProjectModel.FK_UserOrder_CABIProduct">
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+            <End Role="UserOrder" EntitySet="UserOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wishes_CABIProduct" Association="CABIProjectModel.FK_Wishes_CABIProduct">
+            <End Role="CABIProduct" EntitySet="CABIProduct" />
+            <End Role="Wishes" EntitySet="Wishes" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="AdminUser">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Account" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UserRole" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsLocked" Type="Boolean" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -220,42 +243,44 @@
           <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsLocked" Type="Boolean" />
           <Property Name="Display" Type="Int32" />
+          <Property Name="type" Type="Byte" />
         </EntityType>
         <EntityType Name="CABIProduct">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ThemeID" Type="Int32" Nullable="false" />
+          <Property Name="ThemeID" Type="Int32" />
           <Property Name="NewTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Discribe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Contents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Color" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TopRecommend" Type="Boolean" />
+          <Property Name="TopRecommend" Type="Boolean" Nullable="false" />
           <Property Name="SizeInfo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DesignConcept" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Scene" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ListImg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClothInfo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ImgList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CollectionImg" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ImgListTopIndex" Type="Int32" />
           <Property Name="ProductClickNum" Type="Int32" />
           <Property Name="CollectionNum" Type="Int32" />
           <Property Name="OrderNum" Type="Int32" />
+          <Property Name="ShareNum" Type="Int32" />
           <Property Name="AddTime" Type="DateTime" Precision="3" />
           <Property Name="Desplay" Type="Int32" />
           <Property Name="AllDesplay" Type="Int32" />
+          <Property Name="TopDesplay" Type="Int32" />
           <Property Name="IsLocked" Type="Boolean" />
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TopDesplay" Type="Int32" />
-          <NavigationProperty Name="TitleType" Relationship="CABIProjectModel.FK_CABIProduct_TitleType" FromRole="CABIProduct" ToRole="TitleType" />
-          <Property Name="Discribe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CollectionImg" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ShareNum" Type="Int32" />
-          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ContentIMGList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DesignConcept" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="ClothInfo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Wishes" Relationship="CABIProjectModel.FK_Wishes_CABIProduct" FromRole="CABIProduct" ToRole="Wishes" />
+          <Property Name="SubTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TitleType" Relationship="CABIProjectModel.FK_CABIProduct_TitleType" FromRole="CABIProduct" ToRole="TitleType" />
           <NavigationProperty Name="UserOrder" Relationship="CABIProjectModel.FK_UserOrder_CABIProduct" FromRole="CABIProduct" ToRole="UserOrder" />
+          <NavigationProperty Name="Wishes" Relationship="CABIProjectModel.FK_Wishes_CABIProduct" FromRole="CABIProduct" ToRole="Wishes" />
         </EntityType>
         <EntityType Name="CompanyInfo">
           <Key>
@@ -279,48 +304,26 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Display" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CABIProduct" Relationship="CABIProjectModel.FK_CABIProduct_TitleType" FromRole="TitleType" ToRole="CABIProduct" />
           <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CABIProduct" Relationship="CABIProjectModel.FK_CABIProduct_TitleType" FromRole="TitleType" ToRole="CABIProduct" />
         </EntityType>
-        <EntityContainer Name="CABIProjectEntities" annotation:LazyLoadingEnabled="false">
-          <EntitySet Name="AdminUser" EntityType="Self.AdminUser" />
-          <EntitySet Name="Banner" EntityType="Self.Banner" />
-          <EntitySet Name="CABIProduct" EntityType="Self.CABIProduct" />
-          <EntitySet Name="CompanyInfo" EntityType="Self.CompanyInfo" />
-          <EntitySet Name="ProgramData" EntityType="Self.ProgramData" />
-          <EntitySet Name="TitleType" EntityType="Self.TitleType" />
-          <AssociationSet Name="FK_CABIProduct_TitleType" Association="CABIProjectModel.FK_CABIProduct_TitleType">
-            <End Role="TitleType" EntitySet="TitleType" />
-            <End Role="CABIProduct" EntitySet="CABIProduct" />
-          </AssociationSet>
-          <EntitySet Name="UserOrder" EntityType="CABIProjectModel.UserOrder" />
-          <EntitySet Name="UserInfo" EntityType="CABIProjectModel.UserInfo" />
-          <EntitySet Name="Wishes" EntityType="CABIProjectModel.Wishes" />
-          <AssociationSet Name="FK_Wishes_CABIProduct" Association="CABIProjectModel.FK_Wishes_CABIProduct">
-            <End Role="CABIProduct" EntitySet="CABIProduct" />
-            <End Role="Wishes" EntitySet="Wishes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserOrder_CABIProduct" Association="CABIProjectModel.FK_UserOrder_CABIProduct">
-            <End Role="CABIProduct" EntitySet="CABIProduct" />
-            <End Role="UserOrder" EntitySet="UserOrder" />
-          </AssociationSet>
-        </EntityContainer>
-        <Association Name="FK_CABIProduct_TitleType">
-          <End Type="CABIProjectModel.TitleType" Role="TitleType" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="CABIProjectModel.CABIProduct" Role="CABIProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TitleType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CABIProduct">
-              <PropertyRef Name="ThemeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserOpenID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WxHeadImg" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Counrty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Byte" />
+          <Property Name="WxNickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserRealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="UserOrder">
           <Key>
             <PropertyRef Name="OrderID" />
@@ -340,42 +343,25 @@
           <Property Name="AdminDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CABIProduct" Relationship="CABIProjectModel.FK_UserOrder_CABIProduct" FromRole="UserOrder" ToRole="CABIProduct" />
         </EntityType>
-        <EntityType Name="UserInfo">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserOpenID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="WxHeadImg" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Counrty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Gender" Type="Byte" />
-          <Property Name="WxNickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UserRealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Wishes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserOpenID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="AddTime" Type="DateTime" Precision="3" />
           <Property Name="ProductID" Type="Int32" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CABIProduct" Relationship="CABIProjectModel.FK_Wishes_CABIProduct" FromRole="Wishes" ToRole="CABIProduct" />
         </EntityType>
-        <Association Name="FK_Wishes_CABIProduct">
-          <End Type="CABIProjectModel.CABIProduct" Role="CABIProduct" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="CABIProjectModel.Wishes" Role="Wishes" Multiplicity="*" />
+        <Association Name="FK_CABIProduct_TitleType">
+          <End Type="CABIProjectModel.TitleType" Role="TitleType" Multiplicity="0..1" />
+          <End Type="CABIProjectModel.CABIProduct" Role="CABIProduct" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CABIProduct">
+            <Principal Role="TitleType">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Wishes">
-              <PropertyRef Name="ProductID" />
+            <Dependent Role="CABIProduct">
+              <PropertyRef Name="ThemeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -393,6 +379,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Wishes_CABIProduct">
+          <End Type="CABIProjectModel.CABIProduct" Role="CABIProduct" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CABIProjectModel.Wishes" Role="Wishes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABIProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wishes">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -402,78 +402,80 @@
           <EntitySetMapping Name="AdminUser">
             <EntityTypeMapping TypeName="CABIProjectModel.AdminUser">
               <MappingFragment StoreEntitySet="AdminUser">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Account" ColumnName="Account" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
-                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="HeadImg" ColumnName="HeadImg" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Banner">
             <EntityTypeMapping TypeName="CABIProjectModel.Banner">
               <MappingFragment StoreEntitySet="Banner">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Img" ColumnName="Img" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="Display" ColumnName="Display" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CABIProduct">
             <EntityTypeMapping TypeName="CABIProjectModel.CABIProduct">
               <MappingFragment StoreEntitySet="CABIProduct">
-                <ScalarProperty Name="ClothInfo" ColumnName="ClothInfo" />
-                <ScalarProperty Name="DesignConcept" ColumnName="DesignConcept" />
+                <ScalarProperty Name="SubTitle" ColumnName="SubTitle" />
                 <ScalarProperty Name="ContentIMGList" ColumnName="ContentIMGList" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="ShareNum" ColumnName="ShareNum" />
-                <ScalarProperty Name="CollectionImg" ColumnName="CollectionImg" />
-                <ScalarProperty Name="Discribe" ColumnName="Discribe" />
-                <ScalarProperty Name="TopDesplay" ColumnName="TopDesplay" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
-                <ScalarProperty Name="NewTitle" ColumnName="NewTitle" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Contents" ColumnName="Contents" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="TopRecommend" ColumnName="TopRecommend" />
-                <ScalarProperty Name="SizeInfo" ColumnName="SizeInfo" />
-                <ScalarProperty Name="Scene" ColumnName="Scene" />
-                <ScalarProperty Name="ListImg" ColumnName="ListImg" />
-                <ScalarProperty Name="ImgList" ColumnName="ImgList" />
-                <ScalarProperty Name="ImgListTopIndex" ColumnName="ImgListTopIndex" />
-                <ScalarProperty Name="ProductClickNum" ColumnName="ProductClickNum" />
-                <ScalarProperty Name="CollectionNum" ColumnName="CollectionNum" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
-                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="Desplay" ColumnName="Desplay" />
-                <ScalarProperty Name="AllDesplay" ColumnName="AllDesplay" />
-                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="TopDesplay" ColumnName="TopDesplay" />
+                <ScalarProperty Name="AllDesplay" ColumnName="AllDesplay" />
+                <ScalarProperty Name="Desplay" ColumnName="Desplay" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="ShareNum" ColumnName="ShareNum" />
+                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="CollectionNum" ColumnName="CollectionNum" />
+                <ScalarProperty Name="ProductClickNum" ColumnName="ProductClickNum" />
+                <ScalarProperty Name="ImgListTopIndex" ColumnName="ImgListTopIndex" />
+                <ScalarProperty Name="CollectionImg" ColumnName="CollectionImg" />
+                <ScalarProperty Name="ImgList" ColumnName="ImgList" />
+                <ScalarProperty Name="ClothInfo" ColumnName="ClothInfo" />
+                <ScalarProperty Name="ListImg" ColumnName="ListImg" />
+                <ScalarProperty Name="Scene" ColumnName="Scene" />
+                <ScalarProperty Name="DesignConcept" ColumnName="DesignConcept" />
+                <ScalarProperty Name="SizeInfo" ColumnName="SizeInfo" />
+                <ScalarProperty Name="TopRecommend" ColumnName="TopRecommend" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Discribe" ColumnName="Discribe" />
+                <ScalarProperty Name="NewTitle" ColumnName="NewTitle" />
+                <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CompanyInfo">
             <EntityTypeMapping TypeName="CABIProjectModel.CompanyInfo">
               <MappingFragment StoreEntitySet="CompanyInfo">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="WeChatNum" ColumnName="WeChatNum" />
                 <ScalarProperty Name="WeChatImg" ColumnName="WeChatImg" />
+                <ScalarProperty Name="WeChatNum" ColumnName="WeChatNum" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProgramData">
             <EntityTypeMapping TypeName="CABIProjectModel.ProgramData">
               <MappingFragment StoreEntitySet="ProgramData">
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Visited" ColumnName="Visited" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -481,9 +483,25 @@
             <EntityTypeMapping TypeName="CABIProjectModel.TitleType">
               <MappingFragment StoreEntitySet="TitleType">
                 <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Display" ColumnName="Display" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="CABIProjectModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UserRealName" ColumnName="UserRealName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="WxNickName" ColumnName="WxNickName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Counrty" ColumnName="Counrty" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="WxHeadImg" ColumnName="WxHeadImg" />
+                <ScalarProperty Name="UserOpenID" ColumnName="UserOpenID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -506,27 +524,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserInfo">
-            <EntityTypeMapping TypeName="CABIProjectModel.UserInfo">
-              <MappingFragment StoreEntitySet="UserInfo">
-                <ScalarProperty Name="UserRealName" ColumnName="UserRealName" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="WxNickName" ColumnName="WxNickName" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Counrty" ColumnName="Counrty" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="WxHeadImg" ColumnName="WxHeadImg" />
-                <ScalarProperty Name="UserOpenID" ColumnName="UserOpenID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Wishes">
             <EntityTypeMapping TypeName="CABIProjectModel.Wishes">
               <MappingFragment StoreEntitySet="Wishes">
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="UserOpenID" ColumnName="UserOpenID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

@@ -1,0 +1,241 @@
+﻿ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>上传一组首页轮播图</title>
+
+    <!-- 这里引入必须加个.代表相对路径 -->
+    <script src="./jquery/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <h1>上传一组首页轮播图</h1>
+    栏目ID <input id="ID"><br>
+  
+
+    详情页上传<input type="file" name="basefile" id="basefile" value="选择详情页图片" multiple><br />
+   
+
+
+    <button id="btn">点我上传</button>
+    <script>
+        //详情图片数组
+        var imgurl = new Array();
+        var allImgsOK = false;  //标识是否所有图片已经Base64转码完毕
+
+
+        $("#btn").click(function () {
+            var IDval = $("#ID").val();//主题ID
+            var ajsxurl = $("#ajaxurl").val();//ajax地址
+            console.log(imgurl);
+
+            var businessParam = {
+                imgs: imgurl,
+                ID: IDval
+
+
+            };
+            
+                
+
+
+
+            
+            $.ajax({
+                // url: ajsxurl, //banner修改
+                url: ' http://customer.imotstudio.net/cabi/api/AddBannerIMG', //
+
+                 //url: 'http://localhost:52722/CABI/User/UpdateCollection', //更新收藏图
+                // url: 'http://localhost:52722/CABI/User/UpdateProductList', //更新列表图
+                 //url: 'http://localhost:52722/CABI/User/UpdateInfoList', //更新详情图
+                 //url: 'http://localhost:52722/CABI/User/AddCollection', //上传收藏图
+              //  url: 'http://localhost:52722/CABI/User/productList', //上传post地址 上传列表图
+                // url: 'http://localhost:52722/CABI/User/productsInfolist', //上传post地址
+                //   url: 'http://39.104.205.226:8081/CABI/User/AddBanner', //上传post地址
+                 data: businessParam, //imgs不能更改，后端已经写好
+             //   data: { imgs: imgurl, ID: IDval }, //imgs不能更改，后端已经写好
+                type: 'post',
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (data) {
+                    alert("error:" + data.Error);
+                }
+            })
+
+            //$.ajax({
+
+            //     url: 'http://localhost:52722/CABI/User/AddCollection', //上传收藏图
+            //    //url: 'http://localhost:52722/CABI/User/productList', //上传列表图
+            //   // url: 'http://localhost:52722/CABI/User/productsInfolist', //上传详情图
+            //      // url: 'http://39.104.205.226:8081/CABI/User/AddBanner', //上传banner图
+            //    //  data: { imgs:imgurl ,ID:IDval}, //imgs不能更改，后端已经写好
+            //    data: JSON.stringify(businessParam), //imgs不能更改，后端已经写好
+            //    type: 'post',
+            //    success: function (result) {
+            //        console.log(result);
+            //    },
+            //    error: function (data) {
+            //        console.log("error:" + data.Error);
+            //    }
+            //})
+
+            //$.ajax({
+
+            //    url: 'http://localhost:52722/CABI/User/productList', //上传post地址 上传列表图
+            //    // url: 'http://localhost:52722/CABI/User/productsInfolist', //上传post地址
+            //    //   url: 'http://39.104.205.226:8081/CABI/User/AddBanner', //上传post地址
+            //    data: { imgs: imgurl, ID: IDval }, //imgs不能更改，后端已经写好
+            //    type: 'post',
+            //    success: function (result) {
+            //        console.log(result);
+            //    },
+            //    error: function (data) {
+            //        alert("error:" + data.Error);
+            //    }
+            //})
+        })
+
+
+
+        //提交点击
+        //$("#btn").click(function () {
+
+        //    var NewTitle = $("#NewTitle").val();//主题ID
+        //    var Discribe = $("#Discribe").val();//主题ID
+        //    var Price = $("#Price").val();//主题ID
+        //    var Contents = $("#Contents").val();//主题ID
+        //    var Color = $("#Color").val();//主题ID
+        //    var TopRecommend = $("#selecttop").val();//主题ID
+        //    var Scene = $("#Scene").val();//主题ID
+        //    var ListImg = "临时上传列表一张图";//临时列表图
+        //    var CollectionImg = "临时上传列表一收藏图";//临时列表图
+        //    var ImgListTopIndex = $("#ImgListTopIndex").val();//图置顶索引
+        //    var Desplay = $("#Desplay").val();//主题ID
+        //    var TopDesplay = $("#TopDesplay").val();//主题ID
+        //    var AllDesplay = $("#AllDesplay").val();//主题ID
+        //    var IsLocked = $('input:radio[name="selectlocked"]:checked').val(); //是否锁定
+        //    var Remark = $("#Remark").val();//获取外链接的值
+
+        //    // var getDesplay = $("#Desplaybtn").val();//获取标题的值
+
+        //    //  console.log(getLocked + "---" + getURL + "---" + getTitle + "----" + getDesplay);
+
+        //    if (allImgsOK) { //如果图片都上传完
+        //        for (let a = 0; a < imgurl.length; a++) {
+        //            console.log("test." + imgurl[a].ext); //每一个后缀都遍历添加一下
+        //            updateBackground("test." + imgurl[a].ext, imgurl[a].baseURL, ThemeID, NewTitle, Discribe, Price, Contents, TopRecommend, SizeInfo, Scene, ListImg, CollectionImg, ImgListTopIndex, Desplay, TopDesplay, AllDesplay, IsLocked, Remark, Color); //后缀 +名字
+        //        }
+        //    }
+
+        //});
+
+        //上传事件绑定
+        $("#basefile").change(function () {
+            // console.log("xx");
+            base64(document.getElementById("basefile")); //传入文件
+        });
+
+
+
+        //上传图片的方法
+        function base64(file) {
+            var reader = null;
+
+            //循环上传的文件
+            for (let i = 0; i < file.files.length; i++) {
+                reader = new FileReader();
+                //console.log(reader);
+                var pos = file.files[i].name.lastIndexOf("."); //从后往前获取.之后的索引值.jpg返回值为4
+                var type = file.files[i].name.substring(pos + 1); //获取这个后缀名
+                reader.readAsDataURL(file.files[i]);
+                reader.onloadend = function (e) { //这是一个异步的方法
+                    var imgInfo = { ext: type, baseURL: e.target.result } //分别是：后缀，流文件
+                    imgurl.push(imgInfo);
+                    //console.log(imgurl);
+                    if (i == file.files.length - 1) {
+
+                        allImgsOK = true;
+                    }
+                    //updateBackground(file.files[0].name,imgurl); //返回文件，和
+                }
+            }
+
+            // if (typeof (FileReader) === 'undefined') {
+            //     alert("抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！");
+            // }
+
+            // //判断文件格式
+            // if (type.toLowerCase() != "png" && type.toLowerCase() != 'jpg' && type.toLowerCase() != 'jpeg' && type.toLowerCase() != 'gif' && type.toLowerCase() != 'bmp') {
+            //     alert("格式错误，请上传'png、jpg、jpeg、bmp、gif'格式文件");
+            //     return;
+            // }
+
+
+
+            // Read the file
+
+
+        }
+
+
+        //这个是点击上传按钮的方法 接收参数：文件名，二进制文件，Banner标题，网址（外链用没有可填写空），是否锁定，排序
+        function updateBackground(filename, imageurl, ThemeID, NewTitle, Discribe, Price, Contents, TopRecommend, SizeInfo, Scene, ListImg, CollectionImg, ImgListTopIndex, Desplay, TopDesplay, AllDesplay, IsLocked, Remark, Color) {
+
+            //提交前，去除格式标记
+            imageurl = imageurl.replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,", "").replace("data:image/jpg;base64,", "").replace("data:image/gif;base64,", "").replace("data:image/bmp;base64,", "");
+            // urlElement.innerHTML = imgurl;
+            var businessParam = {
+                "fileName": filename,
+                "fileBase64": imageurl,
+                "ThemeID": ThemeID,
+                "NewTitle": NewTitle,
+                "Discribe": Discribe,
+                "Price": Price,
+                "Contents": Contents,
+                "Color": Color,
+                "TopRecommend": TopRecommend,
+                "SizeInfo": SizeInfo,
+                "Scene": Scene,
+                "ListImg": ListImg,
+                "CollectionImg": CollectionImg,
+                "ImgListTopIndex": ImgListTopIndex,
+                "Desplay": Desplay,
+                "TopDesplay": TopDesplay,
+                "AllDesplay": AllDesplay,
+                "IsLocked": IsLocked,
+                "Remark": Remark,
+
+            };
+            console.log(businessParam);
+
+            $.ajax({
+
+                url: 'http://localhost:52722//CABI/User/AddProduct', //上传post地址
+                //   url: 'http://39.104.205.226:8081/CABI/User/AddBanner', //上传post地址
+                data: JSON.stringify(businessParam),
+
+                contentType: 'application/json',
+                type: 'put',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (data) {
+                    alert("error:" + data.Error);
+                }
+            })
+
+        }
+
+
+
+    </script>
+
+
+</body>
+
+</html>

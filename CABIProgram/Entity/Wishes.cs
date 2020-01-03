@@ -16,8 +16,8 @@ namespace CABIProgram.Entity
     {
         public int ID { get; set; }
         public string UserOpenID { get; set; }
-        public Nullable<System.DateTime> AddTime { get; set; }
         public Nullable<int> ProductID { get; set; }
+        public Nullable<System.DateTime> AddTime { get; set; }
     
         public virtual CABIProduct CABIProduct { get; set; }
     }

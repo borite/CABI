@@ -20,5 +20,6 @@ namespace CABIProgram.Entity
         public string URL { get; set; }
         public Nullable<bool> IsLocked { get; set; }
         public Nullable<int> Display { get; set; }
+        public Nullable<byte> type { get; set; }
     }
 }
