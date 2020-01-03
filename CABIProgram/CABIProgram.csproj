@@ -147,6 +147,7 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="test\IMGTEST\addimg 加首页轮播图.html" />
     <Content Include="test\IMGTEST\addimg 滚动图.html" />
     <Content Include="test\IMGTEST\addimg 详情图.html" />
     <Content Include="test\IMGTEST\addimg 面料图.html" />
