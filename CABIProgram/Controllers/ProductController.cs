@@ -108,7 +108,12 @@ namespace CABIProgram.Controllers
             var types = CB.TitleType.Where(t => t.IsLocked == false).OrderByDescending(a => a.Display).Select(s => new
             {
                 s.ID,
-                s.Title
+                s.Title,
+                s.IsLocked,
+                //某个分类下的产品总数
+                count=s.CABIProduct.Where(a=>a.ThemeID==s.ID).Count(),
+                //某个分类下的上架展示的产品数
+                isShowing = s.CABIProduct.Where(a => a.ThemeID == s.ID && a.IsLocked==false).Count()
             });
 
             if (types != null)
@@ -145,6 +150,7 @@ namespace CABIProgram.Controllers
                     a.ID,
                     ProductName = a.NewTitle,
                     CoverImg = a.CollectionImg
+                
                 });
             }
 
