@@ -181,6 +181,7 @@
     <Compile Include="DTO\AddUserDTO.cs" />
     <Compile Include="DTO\BannerDTO.cs" />
     <Compile Include="DTO\BookingOrderDTO.cs" />
+    <Compile Include="DTO\pageDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\wxArticalDTO.cs" />
     <Compile Include="Entity\AdminUser.cs">

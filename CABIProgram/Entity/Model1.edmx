@@ -371,7 +371,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="CABIProjectEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="CABIProjectEntities" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="AdminUser" EntityType="Self.AdminUser" />
           <EntitySet Name="Banner" EntityType="Self.Banner" />
           <EntitySet Name="CABIProduct" EntityType="Self.CABIProduct" />

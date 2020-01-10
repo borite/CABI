@@ -8,6 +8,7 @@ using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 
 namespace CABIProgram.Controllers
 {
@@ -105,7 +106,7 @@ namespace CABIProgram.Controllers
         [HttpGet,Route("GetProductType")]
         public IHttpActionResult GetProductType()
         {
-            var types = CB.TitleType.Where(t => t.IsLocked == false).OrderByDescending(a => a.Display).Select(s => new
+            var types = CB.TitleType.OrderByDescending(a => a.Display).Select(s => new
             {
                 s.ID,
                 s.Title,
@@ -164,7 +165,92 @@ namespace CABIProgram.Controllers
 
         }
 
-       
+
+        /// <summary>
+        /// 添加产品系列
+        /// </summary>
+        /// <param name="tName">产品系列的名字</param>
+        /// <returns></returns>
+        [HttpPost,Route("AddType")]
+        public IHttpActionResult AddProductType(string TypeName)
+        {
+            bool isExits = CB.TitleType.Any(s => s.Title == TypeName);
+            if (isExits)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 400, Message = "该分类名字已经存在", Data = "" });
+            }
+            else
+            {
+                TitleType tt = new TitleType();
+                tt.Title = TypeName;
+                tt.Display = 100;
+                tt.IsLocked = false;
+                CB.TitleType.Add(tt);
+                CB.SaveChanges();
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "添加成功", Data = "" });
+            }
+        }
+
+        /// <summary>
+        /// 删除产品系列
+        /// </summary>
+        /// <param name="TypeID"></param>
+        /// <returns></returns>
+        [HttpPost,Route("DeleteType")]
+        public IHttpActionResult DelProductType(int TypeID)
+        {
+            var cc = CB.TitleType.Where(t => t.ID == TypeID).FirstOrDefault();
+            CB.TitleType.Remove(cc);
+            CB.SaveChanges();
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "删除成功", Data = "" });
+        }
+
+        /// <summary>
+        /// 上架或下架一个系列产品
+        /// </summary>
+        /// <param name="obj">{typeID,isUp}</param>
+        /// <returns></returns>
+        [HttpPost,Route("DownUpProductType")]
+        public IHttpActionResult DownUpProductType([FromBody]JObject obj)
+        {
+            var tid = (int)obj["typeID"];
+
+            if (obj["isUp"].ToString() == "1")
+            {
+                CB.Database.ExecuteSqlCommand("update TitleType set IsLocked=0 where ID=@id", new SqlParameter("@id", tid));
+            }
+            else
+            {
+                CB.Database.ExecuteSqlCommand("update TitleType set IsLocked=1 where ID=@id", new SqlParameter("@id", tid));
+            }
+
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "操作成功", Data = "" });
+        }
+
+
+        /// <summary>
+        /// 通过系列ID获取该系列下的产品
+        /// </summary>
+        /// <param name="pageDTO"></param>
+        /// <returns></returns>
+        [HttpPost,Route("ManageGetProductsByID")]
+        public IHttpActionResult ManageGetProductByID(pageDTO pageDTO)
+        {
+            var total = CB.CABIProduct.Where(a => a.ThemeID == pageDTO.targetID).Count();
+            var list = CB.CABIProduct.Where(a => a.ThemeID == pageDTO.targetID).OrderByDescending(a => a.Desplay).Select(s => new
+            {
+                s.ID,
+                s.NewTitle,
+                TypeName = s.TitleType.Title,
+                s.Price,
+                s.ProductClickNum,
+                s.CollectionNum,
+                s.OrderNum,
+                s.AddTime,
+                s.IsLocked
+            }).Skip(pageDTO.pageSize * (pageDTO.pageIndex - 1)).Take(pageDTO.pageSize);
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = total.ToString(), Data = list });
+        }
 
     }
 }
