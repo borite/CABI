@@ -103,18 +103,18 @@ namespace CABIProgram.Controllers
         /// 获取产品分类
         /// </summary>
         /// <returns></returns>
-        [HttpGet,Route("GetProductType")]
+        [HttpGet, Route("GetProductType")]
         public IHttpActionResult GetProductType()
         {
-            var types = CB.TitleType.OrderByDescending(a => a.Display).Select(s => new
+            var types = CB.TitleType.AsNoTracking().Where(t => t.IsLocked == false).OrderByDescending(a => a.Display).Select(s => new
             {
                 s.ID,
                 s.Title,
-                s.IsLocked,
-                //某个分类下的产品总数
-                count=s.CABIProduct.Where(a=>a.ThemeID==s.ID).Count(),
-                //某个分类下的上架展示的产品数
-                isShowing = s.CABIProduct.Where(a => a.ThemeID == s.ID && a.IsLocked==false).Count()
+                //s.IsLocked,
+                ////某个分类下的产品总数
+                //count = s.CABIProduct.Where(a => a.ThemeID == s.ID).Count(),
+                ////某个分类下的上架展示的产品数
+                //isShowing = s.CABIProduct.Where(a => a.ThemeID == s.ID && a.IsLocked == false).Count()
             });
 
             if (types != null)
@@ -124,6 +124,37 @@ namespace CABIProgram.Controllers
 
             return Content(HttpStatusCode.OK, new resultInfo { Code = 404, Message = "没有产品分类信息", Data = "" });
         }
+
+
+
+        /// <summary>
+        /// 获取产品分类
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("GetProductTypeForBack")]
+        public IHttpActionResult GetProductTypeForBack()
+        {
+            var types = CB.TitleType.AsNoTracking().OrderByDescending(a => a.Display).Select(s => new
+            {
+                s.ID,
+                s.Title,
+                s.IsLocked,
+                //某个分类下的产品总数
+                count = s.CABIProduct.Where(a => a.ThemeID == s.ID).Count(),
+                //某个分类下的上架展示的产品数
+                isShowing = s.CABIProduct.Where(a => a.ThemeID == s.ID && a.IsLocked == false).Count()
+            });
+
+            if (types != null)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = types });
+            }
+
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 404, Message = "没有产品分类信息", Data = "" });
+        }
+
+
+
 
 
         /// <summary>
