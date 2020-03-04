@@ -267,21 +267,45 @@ namespace CABIProgram.Controllers
         [HttpPost,Route("ManageGetProductsByID")]
         public IHttpActionResult ManageGetProductByID(pageDTO pageDTO)
         {
-            var total = CB.CABIProduct.Where(a => a.ThemeID == pageDTO.targetID).Count();
-            var list = CB.CABIProduct.Where(a => a.ThemeID == pageDTO.targetID).OrderByDescending(a => a.Desplay).Select(s => new
+            if (pageDTO == null)
             {
-                s.ID,
-                s.NewTitle,
-                TypeName = s.TitleType.Title,
-                s.Price,
-                s.ProductClickNum,
-                s.CollectionNum,
-                s.OrderNum,
-                s.AddTime,
-                s.IsLocked
-            }).Skip(pageDTO.pageSize * (pageDTO.pageIndex - 1)).Take(pageDTO.pageSize);
-            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = total.ToString(), Data = list });
+                return Content(HttpStatusCode.BadRequest, new resultInfo { Code = 400,Message="参数错误" });
+            }
+           
+            if (pageDTO.targetID == 0)
+            {
+                var total = CB.CABIProduct.AsNoTracking().Count();
+                var list = CB.CABIProduct.OrderByDescending(a => a.Desplay).Select(s => new
+                {
+                    s.ID,
+                    s.NewTitle,
+                    TypeName = s.TitleType.Title,
+                    s.Price,
+                    s.ProductClickNum,
+                    s.CollectionNum,
+                    s.OrderNum,
+                    s.AddTime,
+                    s.IsLocked
+                }).Skip(pageDTO.pageSize * (pageDTO.pageIndex - 1)).Take(pageDTO.pageSize);
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = total.ToString(), Data = list });
+            }
+            else
+            {
+                var total = CB.CABIProduct.AsNoTracking().Where(a => a.ThemeID == pageDTO.targetID).Count();
+                var list = CB.CABIProduct.AsNoTracking().Where(a => a.ThemeID == pageDTO.targetID).OrderByDescending(a => a.Desplay).Select(s => new
+                {
+                    s.ID,
+                    s.NewTitle,
+                    TypeName = s.TitleType.Title,
+                    s.Price,
+                    s.ProductClickNum,
+                    s.CollectionNum,
+                    s.OrderNum,
+                    s.AddTime,
+                    s.IsLocked
+                }).Skip(pageDTO.pageSize * (pageDTO.pageIndex - 1)).Take(pageDTO.pageSize);
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = total.ToString(), Data = list });
+            } 
         }
-
     }
 }
