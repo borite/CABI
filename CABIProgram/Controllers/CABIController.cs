@@ -600,8 +600,8 @@ namespace CABIProgram.Controllers
         /// </summary>
         /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
         /// <returns></returns>
-        [HttpPost, Route("UpdateCloseInfoIMG")]
-        public string UpdateCloseInfoIMG([FromBody]JObject obj)
+        [HttpPost, Route("UpdateClothInfoIMG")]
+        public string UpdateClothInfoIMG([FromBody]JObject obj)
         {
             try
             {
@@ -687,8 +687,11 @@ namespace CABIProgram.Controllers
                     string[] arraystring = urlListstr.Split(','); //转化一下，先删除数据库中的图片
                     foreach (var item in arraystring) //删除oss的对应图片
                     {
-                        // var substringURL = item.Substring(49);
-                        RemoveIMGFun(ProductsInfoOSSHelper.bucketName, ProductCollectionOSSHelper.endpoint, ProductCollectionOSSHelper.accessKeyId, ProductCollectionOSSHelper.accessKeySecret, item, 49);
+                        if (!string.IsNullOrEmpty(item))
+                        {
+                            // var substringURL = item.Substring(49);
+                            RemoveIMGFun(ProductsInfoOSSHelper.bucketName, ProductCollectionOSSHelper.endpoint, ProductCollectionOSSHelper.accessKeyId, ProductCollectionOSSHelper.accessKeySecret, item, 49);
+                        }
 
                     }
                     //上传多张图片的方法，返回一个,分隔的图片地址字符串
@@ -706,9 +709,6 @@ namespace CABIProgram.Controllers
                 return code.returnFail(ex);
             }
 
-
-
-
         }
 
 
@@ -717,11 +717,11 @@ namespace CABIProgram.Controllers
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        [HttpPost, Route("DeleteProduct")]
-        public string DeleteProduct(CABIProduct obj)
+        [HttpDelete, Route("DeleteProduct")]
+        public string DeleteProduct(int productID)
         {
 
-            var cc = CB.CABIProduct.Where(a => a.ID == obj.ID).FirstOrDefault();
+            var cc = CB.CABIProduct.AsNoTracking().Where(a => a.ID == productID).FirstOrDefault();
             string[] IMGlist = Array.Empty<string>(); //返回一个空数组
             List<string> AddIMGlist = IMGlist.ToList();//后面可以添加
             AddIMGlist.Add(cc.ImgList); //面料图
@@ -736,15 +736,16 @@ namespace CABIProgram.Controllers
             string[] arraystring = vals.Split(','); //转化一下，删除数据库中的图片
             foreach (var item in arraystring) //删除oss的对应图片
             {
-                // var substringURL = item.Substring(49);
-                RemoveIMGFun(ProductsInfoOSSHelper.bucketName, ProductCollectionOSSHelper.endpoint, ProductCollectionOSSHelper.accessKeyId, ProductCollectionOSSHelper.accessKeySecret, item, 49);
-
+                if (!string.IsNullOrEmpty(item))
+                {
+                    // var substringURL = item.Substring(49);
+                    RemoveIMGFun(ProductsInfoOSSHelper.bucketName, ProductCollectionOSSHelper.endpoint, ProductCollectionOSSHelper.accessKeyId, ProductCollectionOSSHelper.accessKeySecret, item, 49);
+                }
             }
 
+            CB.Database.ExecuteSqlCommand("delete from CABIProduct where ID=@pid", new SqlParameter("@pid", productID));
 
-            CB.CABIProduct.Remove(cc);
-            CB.SaveChanges();
-            return code.returnSuccess(cc, "删除产品");
+            return code.returnSuccess("OK", "");
         }
 
 

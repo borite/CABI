@@ -307,5 +307,38 @@ namespace CABIProgram.Controllers
                 return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = total.ToString(), Data = list });
             } 
         }
+
+
+        /// <summary>
+        /// 添加产品
+        /// </summary>
+        /// <param name="addProductDTO"></param>
+        /// <returns></returns>
+        [HttpPost,Route("AddProduct")]
+        public IHttpActionResult AddProduct(AddProductDTO addProductDTO)
+        {
+            CABIProduct res = new CABIProduct();
+            res.ThemeID = addProductDTO.ThemeID; //主题ID
+            res.NewTitle = addProductDTO.NewTitle; //产品标题
+            res.Discribe = addProductDTO.Discribe;//描述
+            res.Price = addProductDTO.Price; //价格
+            res.Color = addProductDTO.Color; //颜色
+            res.TopRecommend = true; //是否在推荐栏目展示
+            res.SizeInfo = addProductDTO.SizeInfo; //尺码
+            res.Scene = addProductDTO.Scene; //应用场景 
+            res.ProductClickNum = 0;//产品点击量
+            res.CollectionNum = 0; //收藏量
+            res.OrderNum = 0; //预约计数
+            res.ShareNum = 0; //分享计数
+            res.AddTime = DateTime.Now;//添加产品时间
+            res.IsLocked = true;//下架
+            res.SubTitle = addProductDTO.SubTitle;
+            res.DesignConcept = addProductDTO.DesignConcept;
+            CB.CABIProduct.Add(res);
+            CB.SaveChanges();
+            //return code.returnSuccess("添加产品成功", res);
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = res.ID });
+        }
+
     }
 }

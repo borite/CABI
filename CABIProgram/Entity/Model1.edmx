@@ -248,9 +248,9 @@
           <Property Name="OrderNum" Type="Int32" />
           <Property Name="ShareNum" Type="Int32" />
           <Property Name="AddTime" Type="DateTime" Precision="3" />
-          <Property Name="Desplay" Type="Int32" />
-          <Property Name="AllDesplay" Type="Int32" />
-          <Property Name="TopDesplay" Type="Int32" />
+          <Property Name="Desplay" Type="Int32" DefaultValue="99" />
+          <Property Name="AllDesplay" Type="Int32" DefaultValue="99" />
+          <Property Name="TopDesplay" Type="Int32" DefaultValue="99" />
           <Property Name="IsLocked" Type="Boolean" />
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />

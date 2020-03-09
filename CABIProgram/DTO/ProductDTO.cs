@@ -76,6 +76,59 @@ namespace CABIProgram.DTO
 
     }
 
+
+    /// <summary>
+    /// 添加产品的DTO
+    /// </summary>
+    public class AddProductDTO
+    {
+        /// <summary>
+        /// 分类ID
+        /// </summary>
+        public int ThemeID { get; set; }
+        /// <summary>
+        /// 产品名字
+        /// </summary>
+        public string NewTitle { get; set; }
+
+
+        /// <summary>
+        /// 副标题
+        /// </summary>
+        public string SubTitle { get; set; }
+
+        /// <summary>
+        /// 商品描述
+        /// </summary>
+        public string Discribe { get; set; }
+        /// <summary>
+        /// 产品价格
+        /// </summary>
+        public Nullable<decimal> Price { get; set; }
+
+        /// <summary>
+        /// 产品颜色
+        /// </summary>
+        public string Color { get; set; }
+
+        /// <summary>
+        /// 产品尺寸
+        /// </summary>
+        public string SizeInfo { get; set; }
+
+        /// <summary>
+        /// 产品适用场景
+        /// </summary>
+        public string Scene { get; set; }
+
+        /// <summary>
+        /// 设计理念
+        /// </summary>
+        public string DesignConcept { get; set; }
+
+    }
+
+
     /// <summary>
     /// 添加心愿API
     /// </summary>

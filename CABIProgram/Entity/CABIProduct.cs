@@ -17,6 +17,9 @@ namespace CABIProgram.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CABIProduct()
         {
+            this.Desplay = 99;
+            this.AllDesplay = 99;
+            this.TopDesplay = 99;
             this.UserOrder = new HashSet<UserOrder>();
             this.Wishes = new HashSet<Wishes>();
         }
