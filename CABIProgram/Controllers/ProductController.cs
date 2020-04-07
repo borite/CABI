@@ -56,6 +56,38 @@ namespace CABIProgram.Controllers
             return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "未找到相关记录" });
         }
 
+        /// <summary>
+        /// 后台获取产品信息
+        /// </summary>
+        /// <param name="pid">产品ID</param>
+        /// <returns></returns>
+        [HttpGet,Route("GetProductInfoForBackEnd")]
+        public IHttpActionResult GetProductInfoForBackEnd(int pid)
+        {
+            var pinfo = CB.CABIProduct.Where(s => s.ID == pid).Select(i => new ProductDTO
+            {
+                ID = i.ID,
+                Color = i.Color,
+                Contents = i.Contents,
+                MaterialImg = i.ImgList,
+                ListImg = i.ListImg,
+                NewTitle = i.NewTitle,
+                Discribe = i.Discribe,
+                Price = i.Price,
+                Scene = i.Scene,
+                SizeInfo = i.SizeInfo,
+                ThemeID = (int)i.ThemeID,
+                ClothInfo = i.ClothInfo,
+                DesignConcept = i.DesignConcept,
+            }).FirstOrDefault();
+
+            if (pinfo != null)
+            {
+                return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "获取成功", Data = pinfo });
+            }
+
+            return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "未找到相关记录" });
+        }
 
         /// <summary>
         /// 用户添加产品至心愿栏
@@ -257,6 +289,30 @@ namespace CABIProgram.Controllers
 
             return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "操作成功", Data = "" });
         }
+
+
+        /// <summary>
+        /// 上架或下架一个产品
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
+        [HttpPost,Route("DownUpProduct")]
+        public IHttpActionResult DownUpProduct([FromBody]JObject obj)
+        {
+            var pid = (int)obj["proID"];
+            if (obj["isUp"].ToString() == "1")
+            {
+                CB.Database.ExecuteSqlCommand("update CABIProduct set IsLocked=0 where ID=@id", new SqlParameter("@id", pid));
+            }
+            else
+            {
+                CB.Database.ExecuteSqlCommand("update CABIProduct set IsLocked=1 where ID=@id", new SqlParameter("@id", pid));
+            }
+
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "操作成功", Data = "" });
+        }
+
+
 
 
         /// <summary>

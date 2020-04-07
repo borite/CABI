@@ -596,7 +596,7 @@ namespace CABIProgram.Controllers
         }
 
         /// <summary>
-        /// 更新一个面料图(更新和上传通用)
+        /// 更新一个面料图(更新和上传通用)，并同时更新面料说明文字
         /// </summary>
         /// <param name="obj">var businessParam = { imgs: imgurl, ID: IDval };</param>
         /// <returns></returns>
@@ -609,8 +609,8 @@ namespace CABIProgram.Controllers
                 var ID = Convert.ToInt32(obj["ID"]);
                 var search = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
                 string jsonval = obj["imgs"].ToString();
+                string clothIntro = obj["intro"].ToString();
                 var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval); //反序列化成json
-
                 var urlListstr = search.ImgList; //读取数据库中的字符串
                 if (string.IsNullOrEmpty(urlListstr)) //如果是空的，直接添加新的字符串，不删除
                 {
@@ -619,6 +619,7 @@ namespace CABIProgram.Controllers
                     // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
                     //数据库赋值
                     search.ImgList = urllist;
+                    search.ClothInfo = clothIntro;
                     CB.SaveChanges();
                     return code.returnSuccess("详情页更新成功", search.ImgList);
 
@@ -639,6 +640,7 @@ namespace CABIProgram.Controllers
                     // var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
                     //数据库赋值
                     search.ImgList = urllist;
+                    search.ClothInfo = clothIntro;
                     CB.SaveChanges();
                     return code.returnSuccess("详情页更新成功", search.ImgList);
                 }
