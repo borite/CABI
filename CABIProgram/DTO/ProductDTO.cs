@@ -146,4 +146,17 @@ namespace CABIProgram.DTO
     }
 
 
+    /// <summary>
+    /// 修改产品信息第一步
+    /// </summary>
+    public class UpdateProductOneDTO : AddProductDTO
+    {
+        /// <summary>
+        /// 产品ID
+        /// </summary>
+        public int ID { get; set; }
+
+    }
+
+
 }

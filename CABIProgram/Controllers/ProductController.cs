@@ -61,24 +61,26 @@ namespace CABIProgram.Controllers
         /// </summary>
         /// <param name="pid">产品ID</param>
         /// <returns></returns>
-        [HttpGet,Route("GetProductInfoForBackEnd")]
+        [HttpGet, Route("GetProductInfoForBackEnd")]
         public IHttpActionResult GetProductInfoForBackEnd(int pid)
         {
-            var pinfo = CB.CABIProduct.Where(s => s.ID == pid).Select(i => new ProductDTO
+            var pinfo = CB.CABIProduct.Where(s => s.ID == pid).Select(i => new
             {
-                ID = i.ID,
-                Color = i.Color,
-                Contents = i.Contents,
-                MaterialImg = i.ImgList,
-                ListImg = i.ListImg,
-                NewTitle = i.NewTitle,
-                Discribe = i.Discribe,
-                Price = i.Price,
-                Scene = i.Scene,
-                SizeInfo = i.SizeInfo,
-                ThemeID = (int)i.ThemeID,
-                ClothInfo = i.ClothInfo,
-                DesignConcept = i.DesignConcept,
+                i.ID,
+                i.Color,
+                i.Contents,
+                i.ImgList,
+                i.ListImg,
+                i.NewTitle,
+                i.Discribe,
+                i.Price,
+                i.Scene,
+                i.SizeInfo,
+                i.ThemeID,
+                i.ClothInfo,
+                i.DesignConcept,
+                i.CollectionImg,
+                i.SubTitle
             }).FirstOrDefault();
 
             if (pinfo != null)
@@ -395,6 +397,37 @@ namespace CABIProgram.Controllers
             //return code.returnSuccess("添加产品成功", res);
             return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = res.ID });
         }
+
+
+        /// <summary>
+        /// 修改产品信息第一步
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut, Route("UpdateProductSetpOne")]
+        public IHttpActionResult UpdateProdectStep1(UpdateProductOneDTO updateProductOneDTO)
+        {
+            int i = CB.Database.ExecuteSqlCommand("update CABIProduct set ThemeID=@themeid, NewTitle=@newtitle,Discribe=@desc,Price=@price,Color=@color,SizeInfo=@size,DesignConcept=@dconcept,Scene=@scene,SubTitle=@subtitle where ID=@pid",
+                new SqlParameter("@themeid", updateProductOneDTO.ThemeID),
+                new SqlParameter("@newtitle", updateProductOneDTO.NewTitle),
+                new SqlParameter("@desc", updateProductOneDTO.DesignConcept),
+                new SqlParameter("@price", updateProductOneDTO.Price),
+                new SqlParameter("@size", updateProductOneDTO.SizeInfo),
+                new SqlParameter("@color", updateProductOneDTO.Color),
+                new SqlParameter("@dconcept", updateProductOneDTO.DesignConcept),
+                new SqlParameter("@scene", updateProductOneDTO.Scene),
+                new SqlParameter("@subtitle", updateProductOneDTO.SubTitle),
+                new SqlParameter("@pid", updateProductOneDTO.ID)
+                );
+            if (i > 0)
+            {
+                return Ok(new resultInfo { Code = 200, Message="OK" , Data = "" });
+            }
+            return Ok(new resultInfo { Code = 404, Message = "信息没有被修改", Data = "" });
+
+        }
+
+        
+
 
     }
 }
