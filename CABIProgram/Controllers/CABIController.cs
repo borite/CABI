@@ -958,19 +958,27 @@ namespace CABIProgram.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost, Route("AdminOrderList1")]
-        public string AdminOrderList1(fenye obj)
+        public IHttpActionResult AdminOrderList1(fenye obj)
         {
-
-
             //每页展示几条内容
             int pageSize = obj.pageSize;
             //当前页码
             int pageIndex = obj.pageIndex;
-
             var total = CB.UserOrder.Count();
-
             var list = CB.UserOrder.OrderByDescending(a => a.OrderTime).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
-            return code.returnSuccess2(list, total, " admin查看预约列表（按预定时间排序）");
+            return Ok(new resultInfo
+            {
+                Code = 200,
+                Message = "admin查看预约列表（按预定时间排序）",
+                Data = new
+                {
+                    total,
+                    list
+                }
+            }) ;
+
+                //return code.returnSuccess2(list, total, "admin查看预约列表（按预定时间排序）");
+
 
         }
         /// <summary>
