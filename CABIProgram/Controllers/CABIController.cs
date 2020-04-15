@@ -933,6 +933,24 @@ namespace CABIProgram.Controllers
         }
 
         /// <summary>
+        /// 更新预约状态 { oid：订单ID，num：订单状态码 （1-待试衣，2-完成 3.取消）}
+        /// </summary>
+        /// <param name="obj">状态代码，1-待试衣，2-完成 3.取消</param>
+        /// <returns></returns>
+        [HttpPost,Route("UpdateOrderState")]
+        public IHttpActionResult UpdateOrderState([FromBody]JObject obj)
+        {
+            string id = obj["oid"].ToString();
+            string num = obj["num"].ToString();
+            int i= CB.Database.ExecuteSqlCommand("update UserOrder set OrderContact=@num where OrderID=@id", new SqlParameter("@num", num), new SqlParameter("@id", id));
+            if (i > 0)
+            {
+                return Ok(new resultInfo { Code = 200, Message = "OK", Data = "" });
+            }
+            return Ok(new resultInfo { Code = 404, Message = "未找到相关记录", Data = "" });
+        }
+
+        /// <summary>
         /// 修改预约
         /// </summary>
         /// <param name="obj"></param>
