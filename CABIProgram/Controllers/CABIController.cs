@@ -27,6 +27,7 @@ using CABIProgram.DTO;
 using System.Data;
 using System.Data.SqlClient;
 using static CABIProgram.DTO.BannerDTO;
+using static CABIProgram.DTO.AdminDTO;
 
 namespace CABIProgram.Controllers
 {
@@ -1572,6 +1573,114 @@ namespace CABIProgram.Controllers
             }
             return Content(HttpStatusCode.NotFound, new resultInfo { Code = 404, Message = "未找到相关记录" });
         }
+
+
+
+
+        /// <summary>
+        /// 后台获取产品信息
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet,Route("GetBackData")]
+          public IHttpActionResult GetBackData()
+        {
+         
+
+
+
+            //标题种类查询列表
+          
+            var TitleTypeNameList  = CB.TitleType.Select(a=> new { a.ID ,a.IsLocked,a.Title}).ToList();
+            //标题种类数量
+            var TitleTypeNameListCount=   TitleTypeNameList.Count();
+
+            //产品SKU总数量统计（包括下架的）
+      
+            var ProductCount = CB.CABIProduct.Count();
+
+            //排名前五的置顶sku！！！！
+          var ProductTop5 = CB.Database.SqlQuery<CABIProduct>("select top 5 * from CABIProduct where IsLocked=0 order by AddTime desc  ");
+
+
+
+            //预约数
+            //    var OrderCount= CB.Database.SqlQuery<UserOrder>("select count(*) from UserOrder ");
+            var OrderCount = CB.UserOrder.Count();
+
+
+            //收藏数
+            //     var WishesCount = CB.Database.SqlQuery<Wishes>("select count(*) from Wishes ");
+            var WishesCount = CB.Wishes.Count(); 
+
+
+            //最新客户预约前5信息
+            var OrderTop5 = CB.Database.SqlQuery<UserOrder>("select top 5 * from UserOrder order by OrderTime desc  ");
+
+            //收藏最多的5款产品
+           var WishesTop5 = CB.Database.SqlQuery<CABIProduct>("select top 5 * from CABIProduct order by CollectionNum desc  ");
+
+
+
+            var data = new
+            {
+
+                TitleTypeNameList,
+                TitleTypeNameListCount,
+                ProductTop5,
+                ProductCount,
+                OrderCount,
+                WishesCount,
+                OrderTop5,
+                WishesTop5
+
+            };
+
+
+
+
+          return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK", Data = data });
+
+        }
+
+        /// <summary>
+        /// 修改用户名
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [HttpPut,Route("UpdateAccount")]
+            public IHttpActionResult UpdateAccount(UpdateAccount obj)
+        {
+
+            var CC = CB.AdminUser.Where(a => a.ID == obj.ID).FirstOrDefault();
+               CC.Account = obj.Account;
+
+            CB.SaveChanges();
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK" });
+
+
+        }
+
+        /// <summary>
+        /// 更改密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut,Route("UpdatePWD")]
+        public IHttpActionResult UpdatePWD(UpdatePWDDTO obj)
+        {
+
+
+            var CC = CB.AdminUser.Where(a => a.ID == obj.ID).FirstOrDefault();
+            CC.Password =  common.sha1(obj.Password) ;
+
+            CB.SaveChanges();
+            return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK" });
+
+
+
+
+        }
+
 
 
         #region 方法合集

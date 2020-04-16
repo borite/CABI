@@ -180,6 +180,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
     <Compile Include="DTO\AddUserDTO.cs" />
+    <Compile Include="DTO\AdminDTO.cs" />
     <Compile Include="DTO\BannerDTO.cs" />
     <Compile Include="DTO\BookingOrderDTO.cs" />
     <Compile Include="DTO\pageDTO.cs" />
