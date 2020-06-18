@@ -423,9 +423,27 @@ namespace CABIProgram.Controllers
                 return Ok(new resultInfo { Code = 200, Message="OK" , Data = "" });
             }
             return Ok(new resultInfo { Code = 404, Message = "信息没有被修改", Data = "" });
-
         }
 
+
+        /// <summary>
+        /// 获取最新5个预约
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("GetUserBooking")]
+        public IHttpActionResult GetUserBooking()
+        {
+            var list = CB.UserOrder.AsNoTracking().Where(n => n.OrderContact == 1).OrderByDescending(n => n.OrderID).Select(s => new
+            {
+                s.OrderName,
+                s.OrderPhone,
+                s.CABIProduct.ID,
+                s.OrderProduct,
+                s.SubmitTime
+            }).Take(5);
+
+            return Ok(new resultInfo { Code = 200, Message = "OK", Data = list });
+        }
         
 
 
