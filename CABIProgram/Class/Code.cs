@@ -69,10 +69,25 @@ namespace ChinaAudio.Class
             return new resultInfo { Code = (int)HttpStatusCode.OK, Message = message, Data = data };
 
         }
+
+        /// <summary>
+        /// 结果返回通用类
+        /// </summary>
         public class resultInfo
         {
+            /// <summary>
+            /// 返回代码
+            /// </summary>
             public int Code { get; set; }
+
+            /// <summary>
+            /// 返回信息
+            /// </summary>
             public string Message { get; set; }
+
+            /// <summary>
+            /// 返回数据
+            /// </summary>
             public dynamic Data { get; set; }
         }
         /// <summary>

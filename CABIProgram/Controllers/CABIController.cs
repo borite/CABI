@@ -1665,19 +1665,26 @@ namespace CABIProgram.Controllers
         /// 更改密码
         /// </summary>
         /// <returns></returns>
-        [HttpPut,Route("UpdatePWD")]
+        [HttpPost,Route("UpdatePWD")]
         public IHttpActionResult UpdatePWD(UpdatePWDDTO obj)
         {
+
+            
+            string oldpassword = common.sha1(obj.OldPassword);
+
+            bool isOK = CB.AdminUser.AsNoTracking().Any(u => u.Password == oldpassword && u.ID==obj.ID);
+
+            if (isOK == false)
+            {
+                return Ok(new resultInfo { Code = 404, Message = "您的旧密码不正确", Data = null });
+            }
+
 
 
             var CC = CB.AdminUser.Where(a => a.ID == obj.ID).FirstOrDefault();
             CC.Password =  common.sha1(obj.Password) ;
-
             CB.SaveChanges();
             return Content(HttpStatusCode.OK, new resultInfo { Code = 200, Message = "OK" });
-
-
-
 
         }
 

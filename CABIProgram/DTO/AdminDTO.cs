@@ -28,26 +28,29 @@ namespace CABIProgram.DTO
 
 
         }
+
+    }
+
+    /// <summary>
+    /// 更新密码DTO
+    /// </summary>
+    public class UpdatePWDDTO
+    {
+
         /// <summary>
-        /// 更新密码DTO
+        /// 旧密码
         /// </summary>
-        public class UpdatePWDDTO
-        {
+        public string OldPassword { get; set; }
 
+        /// <summary>
+        /// 更改的密码
+        /// </summary>
+        public string Password { get; set; }
 
-            /// <summary>
-            /// 更改的密码
-            /// </summary>
-            public string Password { get; set; }
-
-            /// <summary>
-            /// ID
-            /// </summary>
-            public int ID { get; set; }
-
-
-        }
-
+        /// <summary>
+        /// ID
+        /// </summary>
+        public int ID { get; set; }
 
 
     }

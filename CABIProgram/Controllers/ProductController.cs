@@ -439,12 +439,31 @@ namespace CABIProgram.Controllers
                 s.OrderPhone,
                 s.CABIProduct.ID,
                 s.OrderProduct,
-                s.SubmitTime
+                s.OrderTime
             }).Take(5);
 
             return Ok(new resultInfo { Code = 200, Message = "OK", Data = list });
         }
         
+        /// <summary>
+        /// 获取用户收藏最多的5个产品
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet,Route("GetColloctionTop5")]
+        public IHttpActionResult GetColloctionTop5()
+        {
+            var list = CB.CABIProduct.AsNoTracking().OrderByDescending(p => p.CollectionNum).Select(p => new
+            {
+                p.ID,
+                p.NewTitle,
+                p.TitleType.Title,
+                p.CollectionImg,
+                p.CollectionNum,
+            }).Take(5);
+
+            return Ok(new resultInfo { Code = 200, Message = "OK", Data = list });
+        }
 
 
     }
