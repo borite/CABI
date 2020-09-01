@@ -339,19 +339,6 @@ namespace CABIProgram.Controllers
         [HttpPost, Route("productList")]
         public string productslist([FromBody] JObject obj)
         {
-            //var ID = Convert.ToInt32(obj["ID"]);
-
-            //string jsonval = obj["imgs"].ToString();
-            //var reslist = JsonConvert.DeserializeObject<List<ImgInfo>>(jsonval);
-            ////上传多张图片的方法，返回一个,分隔的图片地址字符串
-            //string urllist = IMGListFun(reslist, ProductsListOSSHelper.ImgFirstName, ProductsListOSSHelper.objectPath, ProductsListOSSHelper.endpoint, ProductsListOSSHelper.accessKeyId, ProductsListOSSHelper.accessKeySecret, ProductsListOSSHelper.bucketName);
-
-            //var cc = CB.CABIProduct.Where(a => a.ID == ID).FirstOrDefault();
-            //cc.ListImg = urllist; //列表页
-            //CB.SaveChanges();
-            //return code.returnSuccess("列表页上传成功", cc.ImgList);
-
-            //-------------
             try
             {
                 var ID = Convert.ToInt32(obj["ID"]);
@@ -1794,8 +1781,6 @@ namespace CABIProgram.Controllers
 
             for (int i = 0; i < base64.Count; i++)
             {
-
-
                 dynamic base64vals = base64[i].baseURL.Replace("data:image/jpeg;base64,", "").Replace("data:image/png;base64,", "").Replace("data:image/jpg;base64,", "").Replace("data:image/gif;base64,", "").Replace("data:image/bmp;base64,", "");
                 // AddIMGlist.Add(vals);
 
@@ -1817,8 +1802,6 @@ namespace CABIProgram.Controllers
                     var result = client.PutObject(bucketName, savePath, m); //填写哪个bucket ，路径是哪里，内容是什么 savepath是路径+名字，如果不指定路径就会在根目录下
                                                                             //--------------------------------------------------------
                     AddIMGlist.Add(filePath);
-
-
 
                     // return filePath; //返回这个图片的路径
                 }

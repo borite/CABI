@@ -202,7 +202,7 @@ namespace CABIProgram.Controllers
             IQueryable products = null;
             if (ID == 0)
             {
-                products = CB.CABIProduct.OrderByDescending(p => p.Desplay).ThenByDescending(s=>s.ID).Select(a => new
+                products = CB.CABIProduct.Where(p => p.IsLocked == false).OrderByDescending(p => p.ID).Select(a => new
                 {
                     a.ID,
                     ProductName = a.NewTitle,
@@ -211,12 +211,11 @@ namespace CABIProgram.Controllers
             }
             else
             {
-                products = CB.CABIProduct.Where(s => s.ThemeID == ID && s.IsLocked == false).OrderByDescending(p => p.Desplay).ThenByDescending(s => s.ID).Select(a => new
+                products = CB.CABIProduct.Where(s => s.ThemeID == ID && s.IsLocked == false).OrderByDescending(p => p.ID).Select(a => new
                 {
                     a.ID,
                     ProductName = a.NewTitle,
                     CoverImg = a.CollectionImg
-                
                 });
             }
 
@@ -409,7 +408,7 @@ namespace CABIProgram.Controllers
             int i = CB.Database.ExecuteSqlCommand("update CABIProduct set ThemeID=@themeid, NewTitle=@newtitle,Discribe=@desc,Price=@price,Color=@color,SizeInfo=@size,DesignConcept=@dconcept,Scene=@scene,SubTitle=@subtitle where ID=@pid",
                 new SqlParameter("@themeid", updateProductOneDTO.ThemeID),
                 new SqlParameter("@newtitle", updateProductOneDTO.NewTitle),
-                new SqlParameter("@desc", updateProductOneDTO.DesignConcept),
+                new SqlParameter("@desc", updateProductOneDTO.Discribe),
                 new SqlParameter("@price", updateProductOneDTO.Price),
                 new SqlParameter("@size", updateProductOneDTO.SizeInfo),
                 new SqlParameter("@color", updateProductOneDTO.Color),
